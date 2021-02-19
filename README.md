@@ -19,8 +19,10 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
 
 ## Cheatsheet
 
- - At first, you need to install node.js
- - npm install -g vue-cli
- - vue init webpack-simple vue-spa
-     - npm install (installs everything from package.json)
-     - npm run dev
+- At first, you need to install node.js
+- npm install -g vue-cli
+- vue init webpack-simple vue-spa
+  - npm install (installs everything from package.json)
+  - npm run dev
+  - npm install --save-dev axios
+  
