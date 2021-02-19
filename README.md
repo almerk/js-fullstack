@@ -16,3 +16,11 @@ npm run build
 ```
 
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Cheatsheet
+
+ - At first, you need to install node.js
+ - npm install -g vue-cli
+ - vue init webpack-simple vue-spa
+     - npm install (installs everything from package.json)
+     - npm run dev
