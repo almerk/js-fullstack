@@ -10,7 +10,7 @@
 export default {
     data() {
         return {
-           header:"Vue todos sample" 
+           header:"📅 Vue todos sample" 
         }      
     }
 }

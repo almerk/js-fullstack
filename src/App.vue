@@ -1,44 +1,14 @@
 <template>
-  <div id="app">
-    <aside>
-        <toolbar></toolbar>
-    </aside>
-    <main>
-      <feed :todos="todos"></feed>
-      <div id="calendar">
-
-      </div>
-    </main>
-  </div>
+    <router-view></router-view>
 </template>
 
 <script>
-import axios from 'axios'
-import toolbar from './components/toolbar.vue'
-import feed from './components/feed.vue'
 export default {
   name: 'app',
-  components:{
-    toolbar : toolbar,
-    feed : feed
-  },
-
   data () {
     return {
       todos: [],
       endpoint: 'https://jsonplaceholder.typicode.com/todos/'
-    }
-  },
-  created(){
-      this.getAllTodos();
-  },
-  methods:{
-    getAllTodos(){
-      axios.get(this.endpoint)
-      .then(response => {
-          this.todos = response.data;
-      })
-      .catch(err => console.error("Retrieving todos error:", err));
     }
   }
 }
@@ -46,7 +16,9 @@ export default {
 
 <style>
   *{
-    box-sizing: border-box; 
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
   }
   :root{
     font-size: 16pt;
@@ -55,12 +27,6 @@ export default {
   html, body{
     height:100%;
     width: 100%;
-  }
-  #app{
-    height: 100%;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-row: auto;
-    column-gap: .5em;
+    overflow: hidden;
   }
 </style>

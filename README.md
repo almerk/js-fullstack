@@ -25,4 +25,4 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
   - npm install (installs everything from package.json)
   - npm run dev
   - npm install --save-dev axios
-  
+  - npm install --save-dev vue-router
