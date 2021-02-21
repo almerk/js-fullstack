@@ -7,6 +7,7 @@
 
 <script>
 import calendarEvent from './calendar.event.vue'
+import VueScrollTo from 'vue-scrollto'
 export default {
     props:{
         todos: Array,
@@ -24,15 +25,10 @@ export default {
         getColor(item){
             return this.colors[item.title.length % this.colors.length];
         },
-        goto(refName) {
-
-        }
     },
-    watch:{
-        'selectedEventId': function(){
-            
-        }
-    },
+    updated(){
+        VueScrollTo.scrollTo(`#event-${this.selectedEventId}`, 500, { container:"#feed", duration:2000 })
+    }
 }
 </script>
 
@@ -43,7 +39,7 @@ export default {
         grid-template-columns: repeat(auto-fit, minmax(2em, auto));
         grid-auto-rows: minmax(2em, 0);
         grid-auto-flow: row;
-        height: auto;
+        height: 100%;
         width: 100%;
         overflow-y: auto;
     }
@@ -98,8 +94,6 @@ export default {
     }
     .item.selected{
         box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-        height: 100%;
-        width: auto;
         grid-column-start: 1;
         grid-column-end: -1;
         grid-row: span 10;

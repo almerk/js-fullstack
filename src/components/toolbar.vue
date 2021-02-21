@@ -3,6 +3,9 @@
       <header>
           {{ header }}
       </header>
+      <router-link to="/event/199">199</router-link>
+      <router-link to="/event/100">100</router-link>
+      <router-link to="/event/1">1</router-link>
   </div>
 </template>
 
