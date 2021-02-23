@@ -22,7 +22,7 @@ export default {
             return this.sizes[item.title.length % this.sizes.length];
         },
         eventClick(id){
-            this.$router.push({ path:`/event/${id}`});
+            this.$router.push({ path:`/events/${id}`});
         }
     }
 }

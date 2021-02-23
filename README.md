@@ -26,3 +26,5 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
   - npm run dev
   - npm install --save-dev axios
   - npm install --save-dev vue-router
+  - npm install --save vue-scrollto
+  - npm install --save vuex

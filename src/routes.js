@@ -8,7 +8,12 @@ export default
         component: Main
     },
     {
-        path:'/event/:id',
+        path:'/events',
+        name:'default with events',
+        component: Main
+    },
+    {
+        path:'/events/:id',
         name:'event',
         component: Main,
         params: true

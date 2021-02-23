@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import toolbar from '../components/toolbar.vue'
 import feed from '../components/feed.vue'
 export default {
@@ -22,28 +21,19 @@ export default {
     toolbar : toolbar,
     feed : feed
   },
-
   data () {
     return {
-      todos: [],
-      endpoint: 'https://jsonplaceholder.typicode.com/todos/',
       selectedEventId : this.$route.params.id
     }
   },
   created(){
-      this.getAllTodos();
-  },
-  methods:{
-    getAllTodos(){
-      axios.get(this.endpoint)
-      .then(response => {
-          this.todos = response.data;
-      })
-      .catch(err => console.error("Retrieving todos error:", err));
-    }
+      this.$store.commit('populate')
   },
   computed:{
-    todosFiltered: function() { 
+    todos(){ 
+         return this.$store.state.todos != null? this.$store.state.todos : []
+    },
+    todosFiltered() { 
         return this.todos.map(todo => todo) 
     },
   },

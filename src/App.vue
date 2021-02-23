@@ -1,19 +1,6 @@
 <template>
     <router-view></router-view>
 </template>
-
-<script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      todos: [],
-      endpoint: 'https://jsonplaceholder.typicode.com/todos/'
-    }
-  }
-}
-</script>
-
 <style>
   *{
     box-sizing: border-box;
