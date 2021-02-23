@@ -14,7 +14,7 @@ const router = new Router({
 });
 
 const store = new Vuex.Store({
-  state: Object.fromEntries(Object.entries(api.endpoints).map(entry => { entry[1] = null; return entry } )), //Initializing state with null model sets
+  state: { ... Object.fromEntries(Object.entries(api.endpoints).map(entry => { entry[1] = null; return entry } ))}, //Initializing state with null model sets
   mutations: {
     populate (state) {
         Object.keys(api.endpoints).forEach(key => {

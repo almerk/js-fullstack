@@ -1,14 +1,23 @@
 <template>
     <div :class="[getSize(todoEvent)]" @click="eventClick(todoEvent.id)" :id="`event-${todoEvent.id}`">
+        <label>Name</label> 
         <header>{{ todoEvent.title }}</header>
-        <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-            Quam, explicabo itaque. Ducimus deserunt beatae dolores maxime aspernatur corporis voluptas aliquid sequi iusto dolore culpa omnis provident magnam, numquam, commodi totam?
-        </div>
+        <label>User</label>
+        <user :id="todoEvent.userId"></user>
+        <span>
+            <label v-if="todoEvent.completed">Completed</label>
+            <label v-else>Not completed</label>
+        </span>
+
     </div>
 </template>
 
 <script>
+import user from './user.vue'
 export default {
+    components:{
+        user
+    },
     props: {
         'todo-event': Object
     },
@@ -28,5 +37,5 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 </style>

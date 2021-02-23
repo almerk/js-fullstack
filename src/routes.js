@@ -13,8 +13,20 @@ export default
         component: Main
     },
     {
-        path:'/events/:id',
+        path:'/events/:eventId',
         name:'event',
+        component: Main,
+        params: true
+    },
+    {
+        path:'/users/:userName',
+        name:'user',
+        component: Main,
+        params: true
+    },
+    {
+        path:'/users/:userName/events/:eventId',
+        name:'user-events',
         component: Main,
         params: true
     },

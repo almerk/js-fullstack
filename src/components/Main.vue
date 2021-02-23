@@ -18,12 +18,12 @@ import toolbar from '../components/toolbar.vue'
 import feed from '../components/feed.vue'
 export default {
   components:{
-    toolbar : toolbar,
-    feed : feed
+    toolbar, 
+    feed 
   },
   data () {
     return {
-      selectedEventId : this.$route.params.id
+      selectedEventId : this.$route.params.eventId
     }
   },
   created(){
@@ -39,7 +39,7 @@ export default {
   },
     watch: {
         '$route'() {
-            this.selectedEventId = this.$route.params.id
+            this.selectedEventId = this.$route.params.eventId
         }
     }
 }

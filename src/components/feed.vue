@@ -1,6 +1,6 @@
 <template>
     <div id="feed">
-        <calendar-event v-for="todo in todos" :key="todo.id" :todo-event="todo" :class="[{ active:!todo.completed}, {selected:todo.id == selectedEventId}, 'item', getColor(todo)]">
+        <calendar-event v-for="todo in todos" :key="todo.id" :todo-event="todo" :class="[{ active:!todo.completed}, {selected:todo.id == selectedEventId},  'item', getColor(todo)]">
         </calendar-event>
     </div>    
 </template>
@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     #feed{
         display: grid;
         grid-gap: .3em;
@@ -51,8 +51,21 @@ export default {
         border: 3px solid rgb(var(--c));
         margin:2px;
         position: relative;
+        display: flex;
+        flex-direction: column;
+        transition: .5s;
     }
-    .item:not(.active){
+    .item.selected label{
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size:.8em;
+        text-indent: 0;
+        color:rgb(var(--c));
+    }
+    .item.selected > * {
+        text-indent: .5em;
+    }
+    .item:not(.active) {
         border-image: linear-gradient(to right bottom,  rgb(var(--c),.65), rgb(var(--c), .15));
         border-image-slice: 1;
     }
@@ -60,13 +73,15 @@ export default {
         content: '\2713';
         font-weight: bold;
         position: absolute;
+        transform: translate(10%, -20%);
         top: 0;
+        right: 0;
         z-index: -1;
         background: linear-gradient(to right bottom, rgb(var(--c),.65), rgb(var(--c), .15));
         background-clip: text;
         -webkit-text-fill-color: transparent;
         opacity: .5;
-        font-size: var(--s);
+        font-size: 3em;
     }
     .item.size-1{
         --s:2em;
@@ -98,14 +113,17 @@ export default {
         grid-column-end: -1;
         grid-row: span 10;
         overflow: initial;
-        transition: 1s;  
+        transition: 0s;  
     }
-
-    .item a{
-        text-overflow: ellipsis;
-        word-wrap: none;
-        overflow: hidden;
-            -webkit-line-clamp: 1;
-            display: block;
+    .item:not(.selected) > * {
+       display: none;
     }
+    .item:not(.selected) > header{
+        display: block;
+    }
+    .item:not(.selected):hover{
+        scale: 1.03;
+    }
+    
+   
 </style>
