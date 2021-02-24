@@ -1,22 +1,6 @@
 # hello-vue-spa
 
 > My first spa application on vue
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
 ## Cheatsheet
 
 - At first, you need to install node.js
@@ -28,3 +12,14 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
   - npm install --save-dev vue-router
   - npm install --save vue-scrollto
   - npm install --save vuex
+
+## Commands for db.json, required for [fake endpoint](https://my-json-server.typicode.com/)
+``` js
+// receiving data from another endpoint
+const fetch = require('node-fetch')
+f = fetch('url').then(async r => obj = await r.json())
+
+// saving to file
+const fs = require('fs')
+fs.writeFileSync('./db.json', JSON.stringify({ object }, null, "\t"));
+```
