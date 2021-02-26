@@ -14,17 +14,8 @@
   - npm install --save vuex
 
 ## Commands for db.json, required for [fake endpoint](https://my-json-server.typicode.com/)
-``` js
-// receiving data from another endpoint
-const fetch = require('node-fetch')
-f = fetch('url').then(async r => obj = await r.json())
-
-// saving to file
-const fs = require('fs')
-fs.writeFileSync('./db.json', JSON.stringify({ object }, null, "\t"));
-```
-
 ## Fake endpoint dto
+> Run ./db-create.js to create file with fake entities. Push this file to master(main) branch and entities will be available through endpoint
 
 ### Relations domain
 | Entity | Urls | Fields | Comments |
