@@ -18,6 +18,8 @@ const getRandomName = () => {
 let currentSubjectId = 0, currentObjectId = 0;
 const getSubjectId = () => ++currentSubjectId, getObjectId = () => currentObjectId;
 
+/* ----------------------------------------------Subjects--------------------------------------------- */
+
 const groups = [ 
     { 
         id: getSubjectId(),
@@ -45,13 +47,36 @@ for (let i = 0; i < USERS_COUNT; i++) {
     });
 }
 
+const subjects =   groups.map(x => ({ ...x, $type: 'group' }))
+                    .concat(users.map(x => ({ ...x, $type: 'user' })));
 
+
+/* ----------------------------------------------Objects--------------------------------------------- */
+
+const calendarTypes = ['Anniversary','Event','Task'].map(x => ({ id:getObjectId, name: x }));
+
+const CALENDARS_COUNT = 8
+
+const calendars = []
+for (let i = 0; i < GROUPS_COUNT; i++) {
+    calendars.push({
+        id: getObjectId(),
+        typeId: calendarTypes[Math.floor(Math.random() * calendarTypes.length)].id,
+        name: getRandomName()
+    });
+}
+
+
+
+
+/* ------------------------------------------------------------------------------------------------- */
 
 db = { 
     groups, 
     users, 
-    subjects:  groups.map(x => ({ ...x, $type: 'group' }))
-                .concat(users.map(x => ({ ...x, $type: 'user' }))) 
+    subjects,
+    calendarTypes,
+    calendars
 }
 
 fs.writeFileSync('./db.json', JSON.stringify(db, null, "\t"));
