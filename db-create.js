@@ -1,4 +1,3 @@
-const fetch = require('node-fetch')
 const fs = require('fs')
 const rand = (min, max) => min + Math.random() * (max + 1 - min);
 
@@ -16,7 +15,7 @@ const getRandomName = () => {
 
 
 let currentSubjectId = 0, currentObjectId = 0;
-const getSubjectId = () => ++currentSubjectId, getObjectId = () => currentObjectId;
+const getSubjectId = () => ++currentSubjectId, getObjectId = () => ++currentObjectId;
 
 /* ----------------------------------------------Subjects--------------------------------------------- */
 
@@ -53,17 +52,55 @@ const subjects =   groups.map(x => ({ ...x, $type: 'group' }))
 
 /* ----------------------------------------------Objects--------------------------------------------- */
 
-const calendarTypes = ['Anniversary','Event','Task'].map(x => ({ id:getObjectId, name: x }));
+const calendarTypes = ['Anniversary', 'Notification', 'Task'].map(x => ({ id:getObjectId(), name: x }));
 
 const CALENDARS_COUNT = 8
 
 const calendars = []
-for (let i = 0; i < GROUPS_COUNT; i++) {
+for (let i = 0; i < CALENDARS_COUNT; i++) {
     calendars.push({
         id: getObjectId(),
         typeId: calendarTypes[Math.floor(Math.random() * calendarTypes.length)].id,
         name: getRandomName()
     });
+}
+
+const EVENTS_COUNT = CALENDARS_COUNT * rand(20, 200)
+const TASK_STATUSES = ['created','in process','completed'];
+const mutateEventOfCalendarType = ev => {
+
+    const calendar = calendars.find(c =>
+        c.id == ev.calendarId);
+    const typeName  = calendarTypes.find(t => 
+                        t.id == calendar.typeId).name;
+    switch(typeName) {
+        case 'Anniversary':
+            ev.$type = 'anniversaryEvent';
+            ev.date = new Date(rand(-2000000000000, 1000000000000))
+            //computed: 
+            break;
+        case 'Notification':
+            ev.$type = 'notificationEvent';
+            break;
+        case 'Task':
+            ev.$type = 'taskEvent';
+            ev.status = TASK_STATUSES[Math.floor(Math.random() * TASK_STATUSES.length)];
+            ev.isComplete =  ev.status == 'completed';
+            break;
+    }
+    return ev;
+}
+
+const calendarEvents = []
+for (let i = 0; i < EVENTS_COUNT; i++) {
+    calendarEvents.push(
+        mutateEventOfCalendarType ({
+            id: getObjectId(),
+            calendarId : calendars[Math.floor(Math.random() * calendars.length)].id,
+            name: getRandomName(),
+            description : i % 3 == 0 ? '' : getRandomName()
+        })
+    );
 }
 
 
@@ -76,7 +113,8 @@ db = {
     users, 
     subjects,
     calendarTypes,
-    calendars
+    calendars,
+    calendarEvents
 }
 
 fs.writeFileSync('./db.json', JSON.stringify(db, null, "\t"));
