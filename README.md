@@ -12,6 +12,8 @@
   - npm install --save-dev vue-router
   - npm install --save vue-scrollto
   - npm install --save vuex
+  - npm install --save-dev css-loader@1.0.1 (fixing high vulnerability in js.yaml)
+  - npm install --save-dev webpack-dev-server@2.11.4
 
 ## Commands for db.json, required for [fake endpoint](https://my-json-server.typicode.com/)
 ## Fake endpoint dto

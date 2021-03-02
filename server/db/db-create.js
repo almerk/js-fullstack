@@ -1,8 +1,9 @@
 const fs = require('fs')
+const date = require('date-and-time');
 const rand = (min, max) => min + Math.random() * (max + 1 - min);
 
 
-const GROUPS_COUNT = 6;
+const GROUPS_COUNT = 2;
 const USERS_COUNT = rand(GROUPS_COUNT * 5, GROUPS_COUNT * 15);
 
 const someText = 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Omnis quia quas eos incidunt explicabo harum dicta nihil eaque, aspernatur est. Modi soluta ab odit fuga nesciunt nihil rem tenetur doloribus?';
@@ -54,7 +55,7 @@ const subjects =   groups.map(x => ({ ...x, $type: 'group' }))
 
 const calendarTypes = ['Anniversary', 'Notification', 'Task'].map(x => ({ id:getObjectId(), name: x }));
 
-const CALENDARS_COUNT = 8
+const CALENDARS_COUNT = 4
 
 const calendars = []
 for (let i = 0; i < CALENDARS_COUNT; i++) {
@@ -65,7 +66,7 @@ for (let i = 0; i < CALENDARS_COUNT; i++) {
     });
 }
 
-const EVENTS_COUNT = CALENDARS_COUNT * rand(20, 200)
+const EVENTS_COUNT = CALENDARS_COUNT * rand(3, 20)
 const TASK_STATUSES = ['created','in process','completed'];
 const mutateEventOfCalendarType = ev => {
 
@@ -103,7 +104,15 @@ for (let i = 0; i < EVENTS_COUNT; i++) {
     );
 }
 
-/* --------------------------------------------------------------------------------------- */
+/* ------------------------------------------Relations---------------------------------------------- */
+/*
+    1. Each object has subject owner
+    2. Each task has perfomer(s) and acceptor(s). Only task can have them
+    3. One relation can have several roles (ex. owner and acceptor)
+    4. Only one relation can be created for pair subject <-> object. But it can have several roles
+*/
+
+
 
 
 
@@ -114,7 +123,7 @@ for (let i = 0; i < EVENTS_COUNT; i++) {
 db = { 
     groups, 
     users, 
-    subjects,
+    //subjects,
     calendarTypes,
     calendars,
     calendarEvents
