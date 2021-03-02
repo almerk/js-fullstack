@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const db = require('./db.js');
 const app = express();
-const SERVER_PORT = 1337;
+const SERVER_PORT = 8080;
 
 const state = db(path.resolve(__dirname + '/db/db.json'));
 Object.keys(state).forEach(key => {

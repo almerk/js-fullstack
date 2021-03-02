@@ -1,18 +1,22 @@
 {
   "name": "nodejs-server",
   "version": "1.0.0",
-  "description": "Simple app endpoint",
+  "description": "",
   "main": "app.js",
-  "author": "almerk <almerk.work@gmail.com>",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "process": "^0.11.10"
-  },
-  "devDependencies": {
-    "process": "^0.11.10"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almerk/vue-spa.git"
+  },
+  "author": "almerk <almerk.work@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/almerk/vue-spa/issues"
+  },
+  "homepage": "https://github.com/almerk/vue-spa#readme",
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
