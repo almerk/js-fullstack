@@ -16,13 +16,15 @@ RUN npm run build
 
 FROM nginx:alpine as production-build
 COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+RUN chmod 744 /etc/nginx/nginx.conf
 
-## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy from the stahg 1
-COPY --from=builder /vue-ui/index.html /usr/share/nginx/html/index.html
+# Copy from the stage 1
 COPY --from=builder /vue-ui/dist /usr/share/nginx/html/dist
+COPY --from=builder /vue-ui/index.html /usr/share/nginx/html/index.html
+RUN chmod -R 755 /usr/share/nginx/html/
+
 
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
