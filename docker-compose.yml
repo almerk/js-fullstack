@@ -1,0 +1,17 @@
+version: '3'
+services: 
+  calendario-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: calendario-server
+    ports: 
+    - 8080:8081
+    volumes:
+    - node_modules:/usr/src/app/node_modules
+    networks:
+    - calendario-network
+networks: 
+  calendario-network:
+volumes: 
+  node_modules:
