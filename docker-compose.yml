@@ -5,11 +5,14 @@ services:
       context: ./server
       dockerfile: Dockerfile
     container_name: calendario-server
-    ports: 
-    - 8080:8081
+    env_file: .env
+    environment: 
+      - SERVER_PORT=$SERVER_PORT
+    ports:
+    - 8080:$SERVER_PORT
     volumes:
     - node_modules:/usr/src/app/node_modules
-    networks:
+    networks: 
     - calendario-network
 networks: 
   calendario-network:
