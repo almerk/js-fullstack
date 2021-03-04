@@ -1,25 +1,25 @@
-# hello-vue-spa
+# JS fullstack app
 
-> My first spa application on vue
-## Cheatsheet
+> It started as my first spa application on vue. I added express server for api calls emulation, moved client and server app to different containers and mongodb container to store dto. 
 
-- At first, you need to install node.js
-- npm install -g vue-cli
-- vue init webpack-simple vue-spa
-  - npm install (installs everything from package.json)
-  - npm run dev
-  - npm install --save-dev axios
-  - npm install --save-dev vue-router
-  - npm install --save vue-scrollto
-  - npm install --save vuex
-  - npm install --save-dev css-loader@1.0.1 (fixing high vulnerability in js.yaml)
-  - npm install --save-dev webpack-dev-server@2.11.4
+## Scenarios
 
-## Commands for db.json, required for [fake endpoint](https://my-json-server.typicode.com/)
-## Fake endpoint dto
-> Run ./db-create.js to create file with fake entities. Push this file to master(main) branch and entities will be available through endpoint
+ Server app requires running mongo container, and client app requires server app. 
+All this apps use configured .env file, which is not stored in this repo.
+```
+MONGO_PORT=27017
+MONGO_DB=<db name>
+SERVER_PORT=8087
+MONGO_INITDB_ROOT_USERNAME=<db user>
+MONGO_INITDB_ROOT_PASSWORD=<db password>
+```
+## DTO
+
+Server app provides fake api to these listed entities:
 
 ### Relations domain
+
+
 | Entity | Urls | Fields | Comments |
 | ------------- | ------------- | ----------------------------------------- | --------------- |
 | #relations | /relations?subjectId?=:&objectId?=: | [subjectId](#subjects), [objectId](#objects),<br/><hr/> canRead,<br/> canUpdate,<br/> canDelete,<br/> canCreateOf,<br/> characteristics<sup>'owner','perfomer',''acceptor', _etc._</sup>
@@ -52,3 +52,10 @@
 
 
 
+## Cheatsheet
+
+- npm install -g vue-cli
+- vue init webpack-simple vue-spa
+- npm install --save-dev css-loader@1.0.1 (fixing high vulnerability in js.yaml)
+- npm install --save-dev webpack-dev-server@2.11.4
+- docker run -p:27017:27017 --env-file .env mongo:4.1.8-xenial
