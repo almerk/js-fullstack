@@ -9,9 +9,7 @@ const {
     MONGO_DB
   } = process.env;
 
-
 const url = `mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
-
 const options = {
     useNewUrlParser: true,
     connectTimeoutMS: 10000,

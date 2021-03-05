@@ -5,7 +5,7 @@
 ## Scenarios
 
  Server app requires running mongo container, and client app requires server app. 
-All this apps use configured .env file, which is not stored in this repo.
+All these apps use configured .env file, which is not stored in this repo.
 ```
 MONGO_PORT=27017
 MONGO_DB=<db name>

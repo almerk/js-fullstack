@@ -129,5 +129,5 @@ db = {
     calendarEvents
 }
 
-fs.writeFileSync('./db.json', JSON.stringify(db, null, "\t"));
-console.log('Entities saved to ./db.json');
+//fs.writeFileSync('./db.json', JSON.stringify(db, null, "\t"));
+//console.log('Entities saved to ./db.json');
