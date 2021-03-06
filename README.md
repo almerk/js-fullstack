@@ -12,6 +12,7 @@ MONGO_DB=<db name>
 SERVER_PORT=8087
 MONGO_INITDB_ROOT_USERNAME=<db user>
 MONGO_INITDB_ROOT_PASSWORD=<db password>
+MONGO_HOSNAME=<db host>
 ```
 ## DTO
 
@@ -58,4 +59,4 @@ Server app provides fake api to these listed entities:
 - vue init webpack-simple vue-spa
 - npm install --save-dev css-loader@1.0.1 (fixing high vulnerability in js.yaml)
 - npm install --save-dev webpack-dev-server@2.11.4
-- docker run -p:27017:27017 --env-file .env mongo:4.1.8-xenial
+- docker run -p:27017:27017 -d --env-file ../.env mongo:4.1.8-xenial
