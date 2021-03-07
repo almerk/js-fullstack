@@ -1,4 +1,3 @@
-const fs = require('fs')
 const date = require('date-and-time');
 const rand = (min, max) => min + Math.random() * (max + 1 - min);
 
@@ -13,6 +12,11 @@ const getRandomName = () => {
     let name = someText.substring(left, right);
     return name.charAt(0).toUpperCase() + name.slice(1)
 };
+const getRandomDate = (withTime)=>{
+    const year = rand(1901, 2020);
+    
+
+}
 
 
 let currentSubjectId = 0, currentObjectId = 0;
@@ -123,11 +127,12 @@ for (let i = 0; i < EVENTS_COUNT; i++) {
 db = { 
     groups, 
     users, 
-    //subjects,
+    subjects,
     calendarTypes,
     calendars,
     calendarEvents
 }
 
+module.export = db;
 //fs.writeFileSync('./db.json', JSON.stringify(db, null, "\t"));
 //console.log('Entities saved to ./db.json');
