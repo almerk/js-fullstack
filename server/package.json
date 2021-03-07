@@ -18,7 +18,7 @@
   "homepage": "https://github.com/almerk/vue-spa#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.11.18"
+    "mongodb": "^3.6.4"
   },
   "devDependencies": {
     "dotenv": "^8.2.0"

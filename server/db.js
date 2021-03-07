@@ -1,5 +1,5 @@
 require('dotenv').config({ path: '../.env' })
-const mongoose = require('mongoose');
+const MongoClient = require("mongodb").MongoClient;;
 
 const {
     MONGO_INITDB_ROOT_USERNAME,
@@ -15,6 +15,22 @@ const options = {
     connectTimeoutMS: 10000,
     useUnifiedTopology: true
   };
-mongoose.connect(url, options)
-.then(()=>{ console.log(`${MONGO_DB} is connected`)})
-.catch((err)=>{ console.error(err); });
+
+let dbClient;
+module.exports.connect = (onSuccess, onError) => {
+  new MongoClient(url, options).connect(function(err, client){
+  
+    if(err){
+       console.error('DB connection error', err);
+       return onError(err);
+    }
+    console.log(`${MONGO_DB} connected succesfully`);
+    console.log('----------------------------------');
+    dbClient = client;
+    return onSuccess(client);
+  });
+}
+module.exports.disconnect = () => {
+  dbClient.close();
+  console.log('\tdb connection closed')
+}
