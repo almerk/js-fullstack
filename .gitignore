@@ -11,3 +11,5 @@ yarn-error.log
 *.njsproj
 *.sln
 *.env
+#temp file for checking entities creation
+*.db.json

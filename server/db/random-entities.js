@@ -1,8 +1,10 @@
 const date = require('date-and-time');
-const rand = (min, max) => min + Math.random() * (max + 1 - min);
+const rand = (min, max) => min + Math.floor(Math.random() * (max + 1 - min));
 
 
-const GROUPS_COUNT = 2;
+
+
+const GROUPS_COUNT = 6;
 const USERS_COUNT = rand(GROUPS_COUNT * 5, GROUPS_COUNT * 15);
 
 const someText = 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Omnis quia quas eos incidunt explicabo harum dicta nihil eaque, aspernatur est. Modi soluta ab odit fuga nesciunt nihil rem tenetur doloribus?';
@@ -13,9 +15,9 @@ const getRandomName = () => {
     return name.charAt(0).toUpperCase() + name.slice(1)
 };
 const getRandomDate = (withTime)=>{
-    const year = rand(1901, 2020);
-    
-
+    return withTime?
+    new Date(rand(1901, 2020), rand(0, 11), rand(0, 31), rand(0,23), rand(0,59)) 
+    :new Date(rand(1901, 2020), rand(0, 11), rand(0, 31));
 }
 
 
@@ -59,7 +61,7 @@ const subjects =   groups.map(x => ({ ...x, $type: 'group' }))
 
 const calendarTypes = ['Anniversary', 'Notification', 'Task'].map(x => ({ id:getObjectId(), name: x }));
 
-const CALENDARS_COUNT = 4
+const CALENDARS_COUNT = 8
 
 const calendars = []
 for (let i = 0; i < CALENDARS_COUNT; i++) {
@@ -81,8 +83,7 @@ const mutateEventOfCalendarType = ev => {
     switch(typeName) {
         case 'Anniversary':
             ev.$type = 'anniversaryEvent';
-            ev.date = new Date(rand(-2000000000000, 1000000000000))
-            //computed: 
+            ev.date = rand(0,2) < 2 ? getRandomDate() : null
             break;
         case 'Notification':
             ev.$type = 'notificationEvent';
@@ -108,31 +109,84 @@ for (let i = 0; i < EVENTS_COUNT; i++) {
     );
 }
 
+const objects = calendarTypes.map(x => ({ ...x, $type: 'calendarType' }))
+                    .concat(calendars.map(x => ({ ...x, $type: 'calendar' })))
+                    .concat(calendarEvents)
+
 /* ------------------------------------------Relations---------------------------------------------- */
 /*
-    1. Each object has subject owner
+    0. Each relation determines subject rights on object
+    1. Each object has subject owner. It must have all rights
     2. Each task has perfomer(s) and acceptor(s). Only task can have them
     3. One relation can have several roles (ex. owner and acceptor)
     4. Only one relation can be created for pair subject <-> object. But it can have several roles
+    
+*/
+getRandomSubject = (filter) => {
+    const subjs = filter ? subjects.filter(filter) : subjects
+    const randomIndex = rand(0, subjs.length-1);
+    const res = subjs[randomIndex]
+    return res;
+}
+getRandomRights = ()=> {
+    const rights = { 
+        canRead: true, 
+        canCreateOf: rand(0,1) > 0,
+        canUpdate: rand(0,1) > 0 
+    }
+    rights.canDelete = rights.canUpdate && rand(0,1) > 0
+    return rights;
+} 
+const MAX_RELATIONS_NUM = 20
+
+let relations = []
+objects.forEach(object => {
+    const objRels = [];
+    objRels.push({
+        objectId: object.id,
+        subjectId: getRandomSubject().id,
+        canRead : true,
+        canUpdate: true,
+        canCreateOf: true,
+        canDelete: true,
+        characteristics: ['owner']
+    });
+    const currentRelationsNum = rand(0, MAX_RELATIONS_NUM);
+    for(let i = 0; i < currentRelationsNum; i++){
+        objRels.push({
+            objectId: object.id,
+            subjectId: getRandomSubject(s => !objRels.map(x => x.subjectId).includes(s.id)).id,
+            ...getRandomRights(),
+            characteristics:[],
+        });
+    }
+    if(object.$type == 'taskEvent') {
+        objRels[rand(0, objRels.length-1)].characteristics.push("acceptor");
+        objRels[rand(0, objRels.length-1)].characteristics.push("perfomer");
+        if(rand(0, 2) > 1) objRels[rand(0, objRels.length-1)].characteristics.push("acceptor");
+        if(rand(0, 2) > 1) objRels[rand(0, objRels.length-1)].characteristics.push("perfomer");
+    }
+    relations = relations.concat(objRels);
+});
+
+ 
+/* -----------------------------------------Dates---------------------------------------------- */
+/*
+    1. Each anniversary event has one reccurence date, repeated yearly
+    2. Some of anniversary event can have date, when in all started (Birtdays, for example) 
+    3. Notification events can have all type of dates and can have none date. All these events must be displayed to user
+    4. Occurence is a composed value. It is composed from date
 */
 
 
-
-
-
-/* ------------------------------------------------------------------------------------------------- */
-
-
-
-db = { 
-    groups, 
+module.exports = { 
+    /*groups, 
     users, 
     subjects,
     calendarTypes,
     calendars,
-    calendarEvents
+    calendarEvents,
+    objects,*/
+    relations
 }
-
-module.export = db;
-//fs.writeFileSync('./db.json', JSON.stringify(db, null, "\t"));
-//console.log('Entities saved to ./db.json');
+require('fs').writeFileSync('./.db.json', JSON.stringify(module.exports, null, "\t"));
