@@ -177,6 +177,27 @@ objects.forEach(object => {
     3. Notification events can have all type of dates and can have none date. All these events must be displayed to user
     4. Occurence is a composed value. It is composed from date
 */
+const dates = []
+
+events.forEach(event=>{
+    switch(event.$type){
+        case 'anniversaryEvent' :
+            if(event.date) {
+                
+            } else {
+                
+            }
+        break;
+        case 'notificationEvent' :
+            
+        break;
+        case 'taskEvent' :
+            
+        break;
+    }
+    
+});
+
 
 
 module.exports = { 
@@ -186,7 +207,8 @@ module.exports = {
     calendarTypes,
     calendars,
     calendarEvents,
-    objects,*/
-    relations
+    objects,
+    relations,*/
+    dates
 }
 require('fs').writeFileSync('./.db.json', JSON.stringify(module.exports, null, "\t"));
