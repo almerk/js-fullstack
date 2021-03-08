@@ -53,8 +53,8 @@ for (let i = 0; i < USERS_COUNT; i++) {
     });
 }
 
-const subjects =   groups.map(x => ({ ...x, $type: 'group' }))
-                    .concat(users.map(x => ({ ...x, $type: 'user' })));
+const subjects =   groups.map(x => ({ ...x, type: 'group' }))
+                    .concat(users.map(x => ({ ...x, type: 'user' })));
 
 
 /* ----------------------------------------------Objects--------------------------------------------- */
@@ -82,14 +82,14 @@ const mutateEventOfCalendarType = ev => {
                         t.id == calendar.typeId).name;
     switch(typeName) {
         case 'Anniversary':
-            ev.$type = 'anniversaryEvent';
+            ev.type = 'anniversaryEvent';
             ev.date = rand(0,2) < 2 ? getRandomDate() : null
             break;
         case 'Notification':
-            ev.$type = 'notificationEvent';
+            ev.type = 'notificationEvent';
             break;
         case 'Task':
-            ev.$type = 'taskEvent';
+            ev.type = 'taskEvent';
             ev.status = TASK_STATUSES[Math.floor(Math.random() * TASK_STATUSES.length)];
             ev.isComplete =  ev.status == 'completed';
             break;
@@ -109,8 +109,8 @@ for (let i = 0; i < EVENTS_COUNT; i++) {
     );
 }
 
-const objects = calendarTypes.map(x => ({ ...x, $type: 'calendarType' }))
-                    .concat(calendars.map(x => ({ ...x, $type: 'calendar' })))
+const objects = calendarTypes.map(x => ({ ...x, type: 'calendarType' }))
+                    .concat(calendars.map(x => ({ ...x, type: 'calendar' })))
                     .concat(calendarEvents)
 
 /* ------------------------------------------Relations---------------------------------------------- */
@@ -160,7 +160,7 @@ objects.forEach(object => {
             characteristics:[],
         });
     }
-    if(object.$type == 'taskEvent') {
+    if(object.type == 'taskEvent') {
         objRels[rand(0, objRels.length-1)].characteristics.push("acceptor");
         objRels[rand(0, objRels.length-1)].characteristics.push("perfomer");
         if(rand(0, 2) > 1) objRels[rand(0, objRels.length-1)].characteristics.push("acceptor");
@@ -188,7 +188,7 @@ const getRandomRRules = () => Array.from({length: rand(1 , 4) }, () =>
     }).toString()
 );
 calendarEvents.forEach(event => {
-    switch(event.$type){
+    switch(event.type){
         case 'anniversaryEvent' :
             const rrule = event.date? new RRule({
                 freq: RRule.YEARLY,
@@ -200,7 +200,7 @@ calendarEvents.forEach(event => {
             });
             dates.push({
                 eventId: event.id,
-                $type:"reccurenceDate",
+                type:"reccurenceDate",
                 hasTime: false,
                 rrules:[
                     rrule.toString()
@@ -221,14 +221,14 @@ calendarEvents.forEach(event => {
                     case 0:
                         date = {
                            ...date,
-                            $type:'simpleDate',
+                            type:'simpleDate',
                             dateTime: getRandomDate(date.hasTime)
                         }
                         break;
                     case 1:
                         date = {
                             ...date,
-                             $type: 'continuousDate',
+                             type: 'continuousDate',
                              start: getRandomDate(date.hasTime),
                              
                          }
@@ -237,14 +237,14 @@ calendarEvents.forEach(event => {
                     case 2:
                         date = {
                             ...date,
-                             $type:'reccurenceDate',
+                             type:'reccurenceDate',
                              rrules:getRandomRRules()
                          }
                         break;
                     case 3:
                         date = {
                             ...date,
-                             $type:'continuousReccurenceDate',
+                             type:'continuousReccurenceDate',
                              start: getRandomDate(date.hasTime),
                              rrules:getRandomRRules()
                          }
@@ -255,21 +255,83 @@ calendarEvents.forEach(event => {
             }
         break;
         case 'taskEvent' :
-            
+            const current_dates_num_ = rand(0, 2)
+            for(let i = 0; i < current_dates_num_; i++){
+                let date = {
+                    eventId: event.id,
+                    isExcept: false,
+                    hasTime: rand(0,1) > 0
+                };
+                switch(rand(0, 3))
+                {
+                    case 0:
+                        date = {
+                           ...date,
+                            type:'simpleDate',
+                            dateTime: getRandomDate(date.hasTime)
+                        }
+                        break;
+                    case 1:
+                        date = {
+                            ...date,
+                             type: 'continuousDate',
+                             start: getRandomDate(date.hasTime),
+                             
+                         }
+                         date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
+                        break;
+                    case 2:
+                        date = {
+                            ...date,
+                             type:'reccurenceDate',
+                             rrules:getRandomRRules()
+                         }
+                         if(rand(0, 2) > 0){
+                             dates.push({
+                                    eventId: event.id,
+                                    hasTime: rand(0,1) > 0,
+                                    type:'simpleDate',
+                                    isExcept: true,
+                                    dateTime: getRandomDate(date.hasTime),
+                                 }
+                             );
+                         }
+                        break;
+                    case 3:
+                        date = {
+                            ...date,
+                             type:'continuousReccurenceDate',
+                             start: getRandomDate(date.hasTime),
+                             rrules:getRandomRRules()
+                         }
+                         if(rand(0, 2) > 0){
+                            dates.push({
+                                    eventId: event.id,
+                                    isExcept: true,
+                                    hasTime: rand(0,1) > 0,
+                                    type:'continuousDate',
+                                    start: getRandomDate(date.hasTime),
+                                    end: getRandomDate(date.hasTime),
+                                }
+                            );
+                        }
+                         date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
+                        break;
+                }
+                dates.push(date);
+            }
         break;
     }
     
 });
 
-
-
 module.exports = { 
-    groups, 
-    users, 
+        groups, 
+        users, 
     subjects,
-    calendarTypes,
-    calendars,
-    calendarEvents,
+        calendarTypes,
+        calendars,
+        calendarEvents,
     objects,
     relations,
     dates
