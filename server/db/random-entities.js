@@ -1,4 +1,5 @@
-const date = require('date-and-time');
+const dateAndTime = require('date-and-time');
+const { RRule, RRuleSet, rrulestr } = require('rrule')
 const rand = (min, max) => min + Math.floor(Math.random() * (max + 1 - min));
 
 
@@ -19,7 +20,6 @@ const getRandomDate = (withTime)=>{
     new Date(rand(1901, 2020), rand(0, 11), rand(0, 31), rand(0,23), rand(0,59)) 
     :new Date(rand(1901, 2020), rand(0, 11), rand(0, 31));
 }
-
 
 let currentSubjectId = 0, currentObjectId = 0;
 const getSubjectId = () => ++currentSubjectId, getObjectId = () => ++currentObjectId;
@@ -174,22 +174,85 @@ objects.forEach(object => {
 /*
     1. Each anniversary event has one reccurence date, repeated yearly
     2. Some of anniversary event can have date, when in all started (Birtdays, for example) 
-    3. Notification events can have all type of dates and can have none date. All these events must be displayed to user
+    3. Notification events can have all type of dates and can have no date. All these events must be displayed to user
     4. Occurence is a composed value. It is composed from date
 */
 const dates = []
-
-events.forEach(event=>{
+const freq = [ RRule.YEARLY, RRule.MONTHLY, RRule.WEEKLY, RRule.DAILY, RRule.HOURLY]
+const getRandomRRules = () => Array.from({length: rand(1 , 4) }, () => 
+    new RRule({
+        freq: freq[rand(0,freq.length-1)],
+        dtstart : rand(0,5)!=5? getRandomDate(true) : undefined,
+        interval: rand(1,3),
+        until: rand(0,5)==5? getRandomDate(true) : undefined
+    }).toString()
+);
+calendarEvents.forEach(event => {
     switch(event.$type){
         case 'anniversaryEvent' :
-            if(event.date) {
-                
-            } else {
-                
-            }
+            const rrule = event.date? new RRule({
+                freq: RRule.YEARLY,
+                dtstart: event.date
+            }): new RRule({
+                freq: RRule.YEARLY,
+                bymonthday: rand(1, 28),
+                bymonth: rand(1, 12)
+            });
+            dates.push({
+                eventId: event.id,
+                $type:"reccurenceDate",
+                hasTime: false,
+                rrules:[
+                    rrule.toString()
+                ]
+            });
+            
         break;
         case 'notificationEvent' :
-            
+            const current_dates_num = rand(0, 5)
+            for(let i = 0; i < current_dates_num; i++){
+                let date = {
+                    eventId: event.id,
+                    isExcept: false,
+                    hasTime: rand(0,1) > 0
+                };
+                switch(rand(0, 3))
+                {
+                    case 0:
+                        date = {
+                           ...date,
+                            $type:'simpleDate',
+                            dateTime: getRandomDate(date.hasTime)
+                        }
+                        break;
+                    case 1:
+                        date = {
+                            ...date,
+                             $type: 'continuousDate',
+                             start: getRandomDate(date.hasTime),
+                             
+                         }
+                         date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
+                        break;
+                    case 2:
+                        date = {
+                            ...date,
+                             $type:'reccurenceDate',
+                             rrules:getRandomRRules()
+                         }
+                        break;
+                    case 3:
+                        date = {
+                            ...date,
+                             $type:'continuousReccurenceDate',
+                             start: getRandomDate(date.hasTime),
+                             rrules:getRandomRRules()
+                         }
+                         date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
+                        break;
+                }
+                dates.push(date);
+            }
         break;
         case 'taskEvent' :
             
@@ -201,14 +264,13 @@ events.forEach(event=>{
 
 
 module.exports = { 
-    /*groups, 
+    groups, 
     users, 
     subjects,
     calendarTypes,
     calendars,
     calendarEvents,
     objects,
-    relations,*/
+    relations,
     dates
 }
-require('fs').writeFileSync('./.db.json', JSON.stringify(module.exports, null, "\t"));

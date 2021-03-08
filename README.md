@@ -47,7 +47,7 @@ Server app provides fake api to these listed entities:
 | #dates<sup>extensible</sup>| /dates |[eventId](#eventId),<br/> $type,<br/>isExcept,<br/> **...** |  |
 | #dates$type=simpleDate | - | dateTime,<br/> hasTime <br/> | |
 | #dates$type=continuousDate| - | start, end,<br/>hasTime| |
-| #dates$type=reccurenceDate| - | start,<br/> hasTime,<br/>rrules | |
+| #dates$type=reccurenceDate| - | hasTime,<br/>rrules | |
 | #dates$type=continuousReccurenceDate | - | start, end,<br/>hasTime,<br/> | |
 | occurence | /occurencies | [eventId](#eventId),<br/> dateTime.value,<br/> dateTime.hasTime,<br/> dateTime.belonging<sup>[nullable]</sup>, status | |
 
