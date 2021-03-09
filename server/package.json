@@ -19,6 +19,7 @@
   "dependencies": {
     "date-and-time": "^0.14.2",
     "express": "^4.17.1",
+    "express-swagger-generator": "^1.1.17",
     "mongodb": "^3.6.4",
     "rrule": "^2.6.8"
   },

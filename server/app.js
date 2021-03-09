@@ -4,8 +4,11 @@ const db = require('./db.js');
 const configurateDb = require('./db/configurate.js') 
 const routes = require('./routes.js')
 const { SERVER_PORT } = process.env;
-
 const app = express();
+
+require('./swagger.js')(app)//Adding swagger support
+
+
 app.use('/', routes);
 
 db.connect(async (client) => {

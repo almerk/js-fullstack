@@ -17,7 +17,7 @@ module.exports.current = async function(req, res){
     const id = req.params.id;
     const result = await getCollection(req).findOne({id})
     if(result == null){
-        res.send(404, notFoundError);
+        res.status(404).send(notFoundError);
         return;
     }
     convertResultEntity(result);
