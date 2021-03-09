@@ -3,8 +3,6 @@ const { RRule, RRuleSet, rrulestr } = require('rrule')
 const rand = (min, max) => min + Math.floor(Math.random() * (max + 1 - min));
 
 
-
-
 const GROUPS_COUNT = 6;
 const USERS_COUNT = rand(GROUPS_COUNT * 5, GROUPS_COUNT * 15);
 
@@ -22,7 +20,7 @@ const getRandomDate = (withTime)=>{
 }
 
 let currentSubjectId = 0, currentObjectId = 0;
-const getSubjectId = () => ++currentSubjectId, getObjectId = () => ++currentObjectId;
+const getSubjectId = () => (++currentSubjectId).toString(), getObjectId = () => (++currentObjectId).toString();
 
 /* ----------------------------------------------Subjects--------------------------------------------- */
 
