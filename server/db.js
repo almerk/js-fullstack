@@ -15,7 +15,6 @@ const options = {
     connectTimeoutMS: 10000,
     useUnifiedTopology: true
   };
-console.log(url);
 let dbClient;
 module.exports.connect = (onSuccess, onError) => {
   new MongoClient(url, options).connect(function(err, client){

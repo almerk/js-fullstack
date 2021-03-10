@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '../.env' })
 var path = require('path')
 var webpack = require('webpack')
 
@@ -56,15 +57,22 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
+const { NODE_ENV, SERVER_OUT_PORT, SERVER_HOST} = process.env;
+
+module.exports.plugins = (module.exports.plugins || []).concat([new webpack.DefinePlugin({
+  'process.env': {
+    'NODE_ENV': JSON.stringify(NODE_ENV),
+    'SERVER_PORT': JSON.stringify(SERVER_OUT_PORT),
+    'SERVER_HOST': JSON.stringify(SERVER_HOST)
+  }
+})]);
+
+
+
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {

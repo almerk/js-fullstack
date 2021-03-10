@@ -18,6 +18,7 @@ const store = new Vuex.Store({
   mutations: {
     populate (state) {
         Object.keys(api.endpoints).forEach(key => {
+          console.log(`retrieving data from ${key}:${api.endpoints[key]}`);
           axios.get(api.endpoints[key])
           .then(response => {
               state[key] = response.data

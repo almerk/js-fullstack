@@ -1,11 +1,12 @@
 import Main from './components/Main.vue'
+import Users from './components/Users.vue'
 const NotFound = { template: '<p>Page not found</p>' }
 export default
 [
     {
         path:'/',
         name:'default',
-        component: Main
+        component: Users
     },
     {
         path:'/events',
