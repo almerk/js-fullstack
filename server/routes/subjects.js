@@ -1,5 +1,5 @@
 const express = require('express');
-const subjects = require('../controllers/subjects.js');
+const controller = require('../controllers/subjects.js');
 const router = express.Router();
 
 /**
@@ -8,17 +8,17 @@ const router = express.Router();
  * @param {string} groupId.query Only users with this groupId will be returned
  * @param {string} parentId.query Only groups with this parentId will be returned
  * @param {string} type.query Only subjects of specified type will be returned
- * @returns {object} 200 - An array of user subjects 
+ * @returns {object} 200 - Subjects array 
  */
-router.get('/', subjects.all)
+router.get('/', controller.all)
 
 /**
  * Get calendario subject with specified id
  * @route GET /subjects/{id}
  * @param {string} id.path.required specified subject id - eg: 1
- * @returns {object} 200 - An array of user subjects
+ * @returns {object} 200 - Subject with specified Id
  * @returns {Error}  404 - Can't find subject with such id
  */
-router.get('/:id', subjects.current)
+router.get('/:id', controller.current)
 
 module.exports = router;
