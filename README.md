@@ -1,20 +1,35 @@
 # JS fullstack app
 
-> It started as my first spa application on vue. I added express server for api calls emulation, moved client and server app to different containers and mongodb container to store dto. 
+It started as my first spa application on vue. I added express server for api calls emulation, moved client and server app to different containers and mongodb container to store some entities.  
+
+Client part is built using webpack and vue-cli and published to nginx server as static content.
+Server part uses nodejs + express server and mongoclient (without mongoose).
 
 ## Scenarios
 
  Server app requires running mongo container, and client app requires server app. 
+
 All these apps use configured .env file, which is not stored in this repo.
+
 ```
 MONGO_PORT=27017
 MONGO_DB=<db name>
 SERVER_PORT=8087
+SERVER_OUT_PORT=<Public accessible port for api endpoint>
 MONGO_INITDB_ROOT_USERNAME=<db user>
 MONGO_INITDB_ROOT_PASSWORD=<db password>
 MONGO_HOSNAME=<db host>
 ```
-## DTO
+
+To build images run:  
+>docker-compose build
+
+   and to start this app
+>docker-compose up
+
+Meanwhile webclient should be accessible at http://localhost:80/
+
+## Entities
 
 Server app provides fake api to these listed entities:
 
@@ -51,7 +66,7 @@ Server app provides fake api to these listed entities:
 | #dates$type=continuousReccurenceDate | - | start, end,<br/>hasTime,<br/> | |
 | occurence | /occurencies | [eventId](#eventId),<br/> dateTime.value,<br/> dateTime.hasTime,<br/> dateTime.belonging<sup>[nullable]</sup>, status | |
 
-
+These entities are randomly generated when server app starts.
 
 ## Cheatsheet
 
