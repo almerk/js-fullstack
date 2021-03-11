@@ -9,7 +9,7 @@ Server part uses nodejs + express server and mongoclient (without mongoose).
 
  Server app requires running mongo container, and client app requires server app. 
 
-All these apps use configured .env file, which is not stored in this repo.
+All these apps use configured .env file, which is not stored in this repo. To run this app you must create .env file like this
 
 ```
 MONGO_PORT=27017
@@ -18,7 +18,7 @@ SERVER_PORT=8087
 SERVER_OUT_PORT=<Public accessible port for api endpoint>
 MONGO_INITDB_ROOT_USERNAME=<db user>
 MONGO_INITDB_ROOT_PASSWORD=<db password>
-MONGO_HOSNAME=<db host>
+MONGO_HOSTNAME=calendariodb
 ```
 
 To build images run:  
