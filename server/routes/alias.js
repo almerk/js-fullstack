@@ -40,4 +40,11 @@ router.get('/groups', aliasTypeRedirect("/subjects", "group"))
  */
   router.get('/calendars', aliasTypeRedirect("/objects", "calendar"))
 
+   /**
+ * Get all events
+ * @route GET /calendarEvents
+ * @returns {object} 200 - Calendar types array 
+ */
+    router.get('/calendarEvents', aliasTypeRedirect("/objects", /\w*Event/i))
+
 module.exports = router;
