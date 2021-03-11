@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '../.env' })
+const ENV_PATH = process.env.NODE_ENV == 'production'?'./.env' : '../.env';
+require('dotenv').config({ path: ENV_PATH })
 var path = require('path')
 var webpack = require('webpack')
 
@@ -67,7 +68,7 @@ module.exports.plugins = (module.exports.plugins || []).concat([new webpack.Defi
   }
 })]);
 
-
+console.log(`Client app will retrieve data from ${SERVER_HOST}:${SERVER_OUT_PORT}/.`);
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'

@@ -1,5 +1,5 @@
 import Main from './components/Main.vue'
-import Users from './components/Users.vue'
+import Users from './components/users.vue'
 const NotFound = { template: '<p>Page not found</p>' }
 export default
 [

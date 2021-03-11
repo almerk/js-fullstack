@@ -1,5 +1,22 @@
 version: '3'
-services: 
+services:
+  calendario-weblclient:
+    env_file: .env
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args: 
+        - SERVER_HOST=localhost
+        - SERVER_OUT_PORT=$SERVER_OUT_PORT
+    container_name: calendario-webclient
+    environment: 
+      - SERVER_HOST=calendario-server
+    ports: 
+      - 80:80
+    networks: 
+     - calendario-network
+    depends_on:
+      - calendario-server
   calendario-server:
     build:
       context: ./server

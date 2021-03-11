@@ -1,6 +1,9 @@
 # stage1 as builder
 FROM node:10-alpine as builder
+ARG SERVER_HOST=localhost
+ARG SERVER_OUT_PORT=8090
 
+ENV SERVER_OUT_PORT=${SERVER_OUT_PORT} SERVER_HOST=${SERVER_HOST}
 WORKDIR /vue-ui
 
 # Copy the package.json and install dependencies
@@ -12,7 +15,6 @@ COPY . .
 
 # Build the project
 RUN npm run build
-
 
 FROM nginx:alpine as production-build
 COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
