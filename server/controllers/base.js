@@ -12,14 +12,14 @@ module.exports = function(collectionName, {notFoundErrorText} = { }){
 
     }
     return {
-        async all(req, res) {
+        async all(req, res, next) {
             const result = await getCollection(req).find(transformQuery(req.query)).toArray();
             result.forEach(convertResultEntity);
             res.json(result);
         },
-        async current(req, res) {
-            const id = req.params.id;
-            const result = await getCollection(req).findOne({id})
+        async current(req, res, next, selectRule = (req) => ({ id: req.params.id  })) {
+            const filter = selectRule(req);
+            const result = await getCollection(req).findOne(filter);
             if(result == null){
                 res.status(404).send(notFoundErrorText);
                 return;

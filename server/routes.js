@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const alias = require('./routes/alias.js')
 const subjects = require("./routes/subjects");
-const objects = require("./routes/objects.js");
+const objects = require("./routes/objects");
 const date = require('date-and-time')
 
 router.use(function (req, res, next) {
