@@ -13,13 +13,22 @@ const router = express.Router();
 router.get('/', controller.all)
 
 /**
- * Get calendario subject with specified id (or login)
+ * Get calendario subject with specified id 
  * @route GET /subjects/{id}
  * @param {string} id.path.required specified subject id - eg: 1
  * @returns {object} 200 - Subject with specified id or login
- * @returns {Error}  404 - Can't find subject with such id or login
+ * @returns {Error}  404 - Can't find subject with such id 
  */
 router.get('/:id', controller.current)
+
+/**
+ * Get calendario user with specified login
+ * @route GET /subjects/user/{id}
+ * @param {string} login.path.required specified login - eg: user
+ * @returns {object} 200 - Subject with specified id or login
+ * @returns {Error}  404 - Can't find subject with such login
+ */
+ router.get('/user/:login', controller.userByLogin)
 
 
 module.exports = router;

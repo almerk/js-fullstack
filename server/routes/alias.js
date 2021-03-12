@@ -16,6 +16,19 @@ const aliasTypeRedirect = (url, type) => function(req, res){
  * @returns {Array} 200 - Users array
  */
 router.get('/users', aliasTypeRedirect("/subjects", "user"))
+
+/**
+ * Get calendario user with specified login
+ * This request is alias for /subjects/user/:login?
+ * @param {string} login.path.required specified login - eg: user
+ * @returns {object} 200 - Subject with specified id or login
+ * @returns {Error}  404 - Can't find subject with such login
+ */
+ router.get('/users/:login', (req, res, next) => {
+    console.log('\t Alias for subjects/user/:login worked')
+    req.url=`/subjects/user/${req.params.login}`
+    req.app.handle(req, res, next)
+ })
 /**
  * Get all calendario groups
  * This request is alias for /subjects?type=group
