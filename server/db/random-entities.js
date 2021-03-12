@@ -275,7 +275,6 @@ calendarEvents.forEach(event => {
                             ...date,
                              type: 'continuousDate',
                              start: getRandomDate(date.hasTime),
-                             
                          }
                          date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
                         break;
