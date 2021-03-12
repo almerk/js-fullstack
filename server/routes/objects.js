@@ -7,7 +7,7 @@ const router = express.Router();
  * @route GET /objects
  * @param {string} type.query Only objects of specific type will be returned
  * @param {string} name.query Only objects with specific name wll be returned
- * @returns {object} 200 - Objects array 
+ * @returns {Array} 200 - Objects array 
  */
 router.get('/', controller.all)
 

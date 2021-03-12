@@ -13,14 +13,14 @@ const aliasTypeRedirect = (url, type) => function(req, res){
  * Get all calendario users
  * This request is alias for /subjects?type=user
  * @route GET /users
- * @returns {object} 200 - Users array
+ * @returns {Array} 200 - Users array
  */
 router.get('/users', aliasTypeRedirect("/subjects", "user"))
 /**
  * Get all calendario groups
  * This request is alias for /subjects?type=group
  * @route GET /groups
- * @returns {object} 200 - Subjects array 
+ * @returns {Array} 200 - Subjects array 
  */
 router.get('/groups', aliasTypeRedirect("/subjects", "group"))
 
@@ -28,23 +28,23 @@ router.get('/groups', aliasTypeRedirect("/subjects", "group"))
  * Get all calendario calendar types
  * This request is alias for /object?type=calendarType
  * @route GET /calendarTypes
- * @returns {object} 200 - Calendar types array 
+ * @returns {Array} 200 - Calendar types array 
  */
- router.get('/calendarTypes', aliasTypeRedirect("/objects", "calendarType"))
+router.get('/calendarTypes', aliasTypeRedirect("/objects", "calendarType"))
 
  /**
  * Get all calendars
  * This request is alias for /object?type=calendar
  * @route GET /calendars
- * @returns {object} 200 - Calendar types array 
+ * @returns {Array} 200 - Calendar types array 
  */
-  router.get('/calendars', aliasTypeRedirect("/objects", "calendar"))
+router.get('/calendars', aliasTypeRedirect("/objects", "calendar"))
 
    /**
  * Get all events
  * @route GET /calendarEvents
- * @returns {object} 200 - Calendar types array 
+ * @returns {Array} 200 - Calendar types array 
  */
-    router.get('/calendarEvents', aliasTypeRedirect("/objects", /\w*Event/i))
+router.get('/calendarEvents', aliasTypeRedirect("/objects", /\w*Event/i))
 
 module.exports = router;

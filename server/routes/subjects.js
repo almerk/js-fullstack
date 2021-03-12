@@ -8,7 +8,7 @@ const router = express.Router();
  * @param {string} groupId.query Only users with this groupId will be returned
  * @param {string} parentId.query Only groups with this parentId will be returned
  * @param {string} type.query Only subjects of specified type will be returned
- * @returns {object} 200 - Subjects array 
+ * @returns {Array} 200 - Subjects array 
  */
 router.get('/', controller.all)
 

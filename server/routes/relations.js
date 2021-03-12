@@ -5,7 +5,7 @@ const router = express.Router();
 /**
  * Get all calendario objects
  * @route GET /relations
- * @returns {object} 200 - Relations array 
+ * @returns {Array} 200 - Relations array 
  */
 router.get('/', controller.all)
 

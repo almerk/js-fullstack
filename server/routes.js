@@ -4,6 +4,7 @@ const alias = require('./routes/alias.js')
 const subjects = require("./routes/subjects");
 const objects = require("./routes/objects");
 const relations = require("./routes/relations");
+const dates = require("./routes/dates");
 const date = require('date-and-time')
 
 router.use(function (req, res, next) {
@@ -17,6 +18,7 @@ router.use('/', alias)
 router.use('/subjects', subjects)
 router.use('/objects', objects)
 router.use('/relations', relations)
+router.use('/dates', dates)
 
 
 
