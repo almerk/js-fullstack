@@ -19,7 +19,10 @@ router.use('/subjects', subjects)
 router.use('/objects', objects)
 router.use('/relations', relations)
 router.use('/dates', dates)
-
+router.use('*', (req, res) => {
+    console.log('\tRoute not found!')
+    res.status(404).sendFile(__dirname + '/404.html')}
+)
 
 
 module.exports = router;
