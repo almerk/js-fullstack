@@ -18,8 +18,6 @@ function computeOccurencies(dateArray, start, finish) {
 
 module.exports = computeOccurencies;
 
-console.log(computeOccurencies(values, new Date(2020, 02, 01), new Date(2021, 04, 30)))
-
 function getDates(date, startDay, finishDay) {
     switch (date.type)
     {
@@ -46,13 +44,65 @@ function getDates(date, startDay, finishDay) {
                 belonging: null
             }));
         }
+        case 'continuousDate':
+        {
+            const start = date.start, end = date.end;
+            if (
+                (start >= startDay && start <= finishDay) 
+            ||
+                (end >= startDay && end <= finishDay) 
+            || 
+                (start <= startDay &&  end >= finishDay)
+            )
+            {
+                const result = [];
+                if(start >= startDay && start <= finishDay){
+                    result.push({
+                        value: start,
+                        hasTime: date.hasTime,
+                        belonging:"start"
+                    });
+                }
+                getDaysBetween(start, end).filter(x => x >= startDay && x <= finishDay).forEach(d => {
+                    result.push({
+                        value:d,
+                        hasTime:false,
+                        belonging:"middle"
+                    })
+                });
+
+                if(end >= startDay && end <= finishDay){
+                    result.push({
+                        value: end,
+                        hasTime: date.hasTime,
+                        belonging:"end"
+                    });
+                }
+                
+                return result;
+            }
+        }
+        case 'continuousReccurenceDate':
+        {
+            //TODO:
+        }
 
         
     }
     return [];
 }
 
-function getStatus(date, dateTime){
-    return null;
+function getStatus(date, dateTime) {
+    const today = new Date();
+    if (today < dateTime.value) return "upcoming";
+    if(!date.hasTime && dateAndTime.isSameDay(today, dateTime.value)) return "today"
+    return "happened"
 }
 
+function getDaysBetween(start, end){
+    const res = [];
+    for(let i = dateAndTime.addDays(start, 1); i < end; i= dateAndTime.addDays(i, 1)){
+        res.push(i);
+    }
+    return res;
+}
