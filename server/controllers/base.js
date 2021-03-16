@@ -27,6 +27,7 @@ module.exports = function(collectionName, {notFoundErrorText} = { }){
             convertResultEntity(result);
             res.json(result)
         },
-        getCollection
+        getCollection,
+        transformQuery
     }
 }
