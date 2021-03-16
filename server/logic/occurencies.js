@@ -1,22 +1,54 @@
 const dateAndTime = require('date-and-time');
 const { RRule, RRuleSet, rrulestr } = require('rrule')
-const values = require('../db/random-entities').dates
 
 //This code works only for date borders (with no time)
 function computeOccurencies(dateArray, start, finish) {
     start.setHours(0); start.setMinutes(0); start.setSeconds(0);
     finish.setHours(23); finish.setMinutes(59); finish.setSeconds(59);
-    return dateArray.map(v => {
-        let dates = getDates(v, start, finish);//TODO: isExcept mechanism
+    const groupedByEventId =  dateArray.map(v => {
+        let dates = getDates(v, start, finish);
         return dates.map(d => ({
             eventId: v.eventId,
             dateTime: d,
-            status: getStatus(v, d)
+            status: getStatus(v, d),
+            isExcept: v.isExcept
         }))
-    }).reduce((a, b) => a.concat(b)).sort((a,b) => a.dateTime.value - b.dateTime.value)
+    })
+    .reduce((a, b) => a.concat(b))
+    .reduce((gr, d) => {
+        (gr[d.eventId] = gr[d.eventId] || []).push(d);
+        return gr;
+    }, {});
+    Object.keys(groupedByEventId).forEach(key => { //Deleting exceptDates
+        const oneIdDates = groupedByEventId[key];
+        const settingDates = oneIdDates.filter(x => !x.isExcept);
+        const exceptDates = oneIdDates.filter(x => x.isExcept);
+        if (exceptDates.length > 0) {
+            const filtered = settingDates.filter(x => !exceptDates.some(y => isEqual(x, y)));
+            groupedByEventId[key] = filtered;
+        }
+    });
+    const result = Object.values(groupedByEventId)
+    .reduce((a, b) => a.concat(b))
+    .sort((a, b) => a.dateTime.value - b.dateTime.value);
+    result.forEach(x => { delete x.isExcept });
+    return result;
+    
 }
 
 module.exports = computeOccurencies;
+
+function isEqual(one, another) {
+    return one.eventId == another.eventId
+    && one.dateTime.hasTime == another.dateTime.hasTime
+    && one.dateTime.value.getYear() == another.dateTime.value.getYear()
+    && one.dateTime.value.getMonth() == another.dateTime.value.getMonth()
+    && one.dateTime.value.getDate() == another.dateTime.value.getDate()
+    && (!one.dateTime.hasTime || (
+        one.dateTime.value.getHours() == another.dateTime.value.getHours()
+        && one.dateTime.getMinutes() == another.dateTime.value.getMinutes()
+    ));  
+}
 
 function getDates(date, startDay, finishDay) {
     switch (date.type)
