@@ -1,4 +1,4 @@
-const ENV_PATH = process.env.NODE_ENV == 'production'?'./.env' : '../.env';
+const ENV_PATH =  '../.env';
 require('dotenv').config({ path: ENV_PATH })
 var path = require('path')
 var webpack = require('webpack')
