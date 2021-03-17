@@ -1,8 +1,6 @@
 <template>
 <div id="main">
     <aside>
-      DDDD
-      <h2>{{ events.length}}</h2>
         <toolbar></toolbar>
     </aside>
     <main>
@@ -33,7 +31,6 @@ export default {
   },
   computed:{
     events(){ 
-        console.log(this.$store.state.objects);
         return this.$store.getters.events;
     },
   },

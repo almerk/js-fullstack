@@ -1,12 +1,12 @@
 <template>
-    <div :class="[getSize(todoEvent)]" @click="eventClick(todoEvent.id)" :id="`event-${todoEvent.id}`">
+    <div  @click="eventClick(event.id)" :id="`event-${event.id}`">
         <label>Name</label> 
-        <header>{{ todoEvent.title }}</header>
-        <label>User</label>
-        <user :id="todoEvent.userId"></user>
+        <header>{{ event.name }}</header>
+        <!-- <label>User</label> -->
+        <!-- <user :id="event.userId"></user> -->
         <span>
-            <label v-if="todoEvent.completed">Completed</label>
-            <label v-else>Not completed</label>
+            <!-- <label v-if="event.completed">Completed</label>
+            <label v-else>Not completed</label> -->
         </span>
 
     </div>
@@ -19,7 +19,7 @@ export default {
         user
     },
     props: {
-        'todo-event': Object
+        'event': Object
     },
     data() {
         return {
@@ -28,7 +28,7 @@ export default {
     },
     methods: {
         getSize(item) {
-            return this.sizes[item.title.length % this.sizes.length];
+            return this.sizes[item.name.length % this.sizes.length];
         },
         eventClick(id){
             this.$router.push({ path:`/events/${id}`});
