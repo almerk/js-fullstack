@@ -11,11 +11,11 @@ export default {
         dates: null
     },
     getters:{
-        users: state => (state.subjects || []).filter(x => x.type=="$user"),
-        group: state => (state.subjects || []).filter(x => x.type=="$group"),
-        types: state => (state.objects || []).filter(x => x.type=="$calendarType"),
-        calendars: state => (state.objects || []).filter(x => x.type=="$calendar"),
-        events: state => (state.objects || []).filter(x => x.type=="$calendarEvent"),
+        users: state => (state.subjects || []).filter(x => x.$type=="user"),
+        groups: state => (state.subjects || []).filter(x => x.$type=="group"),
+        types: state => (state.objects || []).filter(x => x.$type=="calendarType"),
+        calendars: state => (state.objects || []).filter(x => x.$type=="calendar"),
+        events: state => (state.objects || []).filter(x => x.$type.match(/\w*Event/)),
         relations: state => (state.relations || []),
         dates: state => (state.dates || []),
     },

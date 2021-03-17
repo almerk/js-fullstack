@@ -1,6 +1,6 @@
 <template>
     <div id="feed">
-        <calendar-event v-for="todo in todos" :key="todo.id" :todo-event="todo" :class="[{ active:!todo.completed}, {selected:todo.id == selectedEventId},  'item', getColor(todo)]">
+        <calendar-event v-for="event in events" :key="event.id" :event="event" :class="[{selected:todo.id == selectedEventId},  'item']">
         </calendar-event>
     </div>    
 </template>
@@ -10,7 +10,7 @@ import calendarEvent from './calendar.event.vue'
 import VueScrollTo from 'vue-scrollto'
 export default {
     props:{
-        todos: Array,
+        events: Array,
         selectedEventId: String
     },
     components:{
