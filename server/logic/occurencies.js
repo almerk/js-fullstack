@@ -15,6 +15,7 @@ function computeOccurencies(dateArray, start, finish) {
         }))
     })
     .reduce((a, b) => a.concat(b))
+    .filter(x => x.dateTime.value >= start && x.dateTime.value <= finish)
     .reduce((gr, d) => {
         (gr[d.eventId] = gr[d.eventId] || []).push(d);
         return gr;
@@ -138,3 +139,4 @@ function getDaysBetween(start, end){
     }
     return res;
 }
+
