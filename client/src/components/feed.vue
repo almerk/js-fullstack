@@ -55,10 +55,7 @@ export default {
         flex-direction: column;
         transition: .5s;
     }
-    .item.selected label{
-        font-weight: bold;
-        text-transform: uppercase;
-        font-size:.8em;
+    .item.selected label {
         text-indent: 0;
         color:rgb(var(--c));
     }

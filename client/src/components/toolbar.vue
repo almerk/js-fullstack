@@ -3,6 +3,7 @@
       <header>
           {{ header }}
       </header>
+      <slot></slot>
   </div>
 </template>
 

@@ -1,12 +1,14 @@
 <template>
 <div id="main">
     <aside>
-        <toolbar></toolbar>
+        <toolbar>
+            <label>Types</label>
+            <section v-for="type in types" :key="type.id" ><input type="checkbox" :id="type.id"/><label :for="type.id">{{type.name}}</label></section>
+        </toolbar>
     </aside>
     <main>
       <feed :events="events" :selectedEventId="selectedEventId"></feed>
       <div id="calendar">
-
       </div>
     </main>
 </div>
@@ -29,8 +31,11 @@ export default {
   created(){
       this.$store.commit('initialize')
   },
-  computed:{
-    events(){ 
+  computed: {
+    types() {
+      return this.$store.getters.types;
+    },
+    events() { 
         return this.$store.getters.events;
     },
   },

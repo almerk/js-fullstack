@@ -16,4 +16,10 @@
     width: 100%;
     overflow: hidden;
   }
+  label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size:.65em;
+    text-indent: 0;
+  }
 </style>
