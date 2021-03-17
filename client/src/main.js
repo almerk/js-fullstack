@@ -3,31 +3,16 @@ import Vuex from 'vuex'
 import Router from 'vue-router'
 import App from './App.vue'
 import routes from './routes.js'
-import api from './api/api.js'
-import axios from 'axios'
+import storeObj from './store.js'
+
 Vue.use(Router);
 Vue.use(Vuex);
+const store = new Vuex.Store(storeObj);
 
 const router = new Router({
   routes,
   mode: 'history',
 });
-
-const store = new Vuex.Store({
-  state: { ... Object.fromEntries(Object.entries(api.endpoints).map(entry => { entry[1] = null; return entry } ))}, //Initializing state with null model sets
-  mutations: {
-    populate (state) {
-        Object.keys(api.endpoints).forEach(key => {
-          console.log(`retrieving data from ${key}:${api.endpoints[key]}`);
-          axios.get(api.endpoints[key])
-          .then(response => {
-              state[key] = response.data
-          })
-          .catch(err => console.error(`Retrieving ${key} error:`, err));
-        });
-    }
-  }
-})
 
 
 new Vue({

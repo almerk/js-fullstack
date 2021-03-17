@@ -27,14 +27,11 @@ export default {
     }
   },
   created(){
-      this.$store.commit('populate')
+      this.$store.commit('initialize')
   },
   computed:{
-    todos(){ 
-         return this.$store.state.todos != null? this.$store.state.todos : []
-    },
-    todosFiltered() { 
-        return this.todos.map(todo => todo) 
+    events(){ 
+         return this.$store.state.getters.events
     },
   },
     watch: {
