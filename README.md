@@ -19,6 +19,7 @@ SERVER_OUT_PORT=<Public accessible port for api endpoint>
 MONGO_INITDB_ROOT_USERNAME=<db user>
 MONGO_INITDB_ROOT_PASSWORD=<db password>
 MONGO_HOSTNAME=calendariodb
+SERVER_HOST=127.0.0.1
 ```
 
 To build images run:  
