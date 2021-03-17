@@ -21,6 +21,7 @@ const getRandomDate = (withTime)=>{
 
 let currentSubjectId = 0, currentObjectId = 0;
 const getSubjectId = () => (++currentSubjectId).toString(), getObjectId = () => (++currentObjectId).toString();
+const getLogin = () => `U_${currentSubjectId}`;
 
 /* ----------------------------------------------Subjects--------------------------------------------- */
 
@@ -44,7 +45,7 @@ for (let i = 0; i < USERS_COUNT; i++) {
     users.push({
         id: getSubjectId(),
         groupId: groups[Math.floor(Math.random() * groups.length)].id,
-        login: getRandomName().replace(/\W/g, '').substring(0, 8),
+        login: getLogin(),
         name: getRandomName().replace(/\W/g,'').substring(0, 20),
         surname: getRandomName().replace(/\W/g,'').substring(0, 20),
         patronymic: getRandomName().replace(/\W/g,'').substring(0, 20),
@@ -274,7 +275,6 @@ calendarEvents.forEach(event => {
                             ...date,
                              type: 'continuousDate',
                              start: getRandomDate(date.hasTime),
-                             
                          }
                          date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
                         break;

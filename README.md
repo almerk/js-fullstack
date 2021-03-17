@@ -64,7 +64,7 @@ Server app provides fake api to these listed entities:
 | #dates$type=continuousDate| - | start, end,<br/>hasTime| |
 | #dates$type=reccurenceDate| - | hasTime,<br/>rrules | |
 | #dates$type=continuousReccurenceDate | - | start, end,<br/>hasTime,<br/> | |
-| occurence | /occurencies | [eventId](#eventId),<br/> dateTime.value,<br/> dateTime.hasTime,<br/> dateTime.belonging<sup>[nullable]</sup>, status | |
+| occurence | /dates/from/:start/till/:end | [eventId](#eventId),<br/> dateTime.value,<br/> dateTime.hasTime,<br/> dateTime.belonging<sup>[nullable]</sup>, status<sup>[nullable]</sup> | |
 
 These entities are randomly generated when server app starts.
 

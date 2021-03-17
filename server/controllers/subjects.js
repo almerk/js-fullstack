@@ -1,25 +1,10 @@
-const name = 'subjects'
-const notFoundError = 'Unable to find such subject';
-function convertResultEntity(element) {
-    delete element._id;
-    element.$type = element.type;
-    delete element.type;
-}
 
-const getCollection = (req) => req.app.locals[name];
+const controller = require('./base.js')('subjects', {
+    notFoundErrorText: 'Unable to find such subject'
+})
+controller.userByLogin = (req,res,next) => controller.current(req, res, next, (req) => ({
+    type: 'user',
+    login: req.params.login
+}));
 
-module.exports.all = async function(req, res) {
-    const result = await getCollection(req).find(req.query).toArray();
-    result.forEach(convertResultEntity);
-    res.json(result);
-}
-module.exports.current = async function(req, res){
-    const id = req.params.id;
-    const result = await getCollection(req).findOne({id})
-    if(result == null){
-        res.status(404).send(notFoundError);
-        return;
-    }
-    convertResultEntity(result);
-    res.json(result)
-}
+module.exports = controller
