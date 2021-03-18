@@ -3,7 +3,19 @@
     <aside>
         <toolbar>
             <label>Types</label>
-            <section v-for="type in types" :key="type.id" ><input type="checkbox" :id="type.id"/><label :for="type.id">{{type.name}}</label></section>
+            <nav>
+                <label v-for="type in types" :key="type.id">
+                  <input type="checkbox" :value="type.id" v-model="selectedTypeIds"/>
+                  <span>{{type.name}}</span>
+                </label>
+            </nav>
+            <label>Calendars</label>
+            <nav>
+                <label v-for="calendar in calendars" :key="calendar.id">
+                  <input type="checkbox" :value="calendar.id" v-model="selectedCalendarIds" :disabled="!inArray(calendar.typeId, selectedTypeIds)"/>
+                  <span>{{calendar.name}}</span>
+                </label>
+            </nav>
         </toolbar>
     </aside>
     <main>
@@ -25,7 +37,14 @@ export default {
   },
   data () {
     return {
-      selectedEventId : this.$route.params.eventId
+      selectedEventId : this.$route.params.eventId,
+      selectedTypeIds: [],
+      selectedCalendarIds: []
+    }
+  },
+  methods: {
+    inArray(value, array){
+      return array.includes(value);
     }
   },
   created(){
@@ -35,6 +54,9 @@ export default {
     types() {
       return this.$store.getters.types;
     },
+    calendars(){
+      return this.$store.getters.calendars;
+    },
     events() { 
         return this.$store.getters.events;
     },
@@ -42,15 +64,29 @@ export default {
     watch: {
         '$route'() {
             this.selectedEventId = this.$route.params.eventId
+        },
+        types(newTypes, oldTypes) {
+          const added = newTypes.filter(x => !oldTypes.some(y => y.id == x.id))
+          this.selectedTypeIds = this.selectedTypeIds.concat(added.map(x => x.id))
+        },
+        calendars(newValue, oldValue){
+          const added = newValue.filter(x => !oldValue.some(y => y.id == x.id));
+          this.selectedCalendarIds = this.selectedCalendarIds.concat(added.map(x => x.id));
+        }, 
+        selectedTypeIds(newValue, oldValue) {
+          const addedTypes = newValue.filter(x => !oldValue.includes(x))
+          const canBeDisplayed =  this.calendars.filter(x => newValue.includes(x.typeId)).map(x => x.id);
+          const mustBeDisplayed =  this.calendars.filter(x => addedTypes.includes(x.typeId)).map(x => x.id);
+          this.selectedCalendarIds = [...this.selectedCalendarIds.filter(x => canBeDisplayed.includes(x)), ...mustBeDisplayed];
         }
     }
 }
 </script>
 
-<style scoped>
+<style>
     #main {
         display: grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: minmax(auto, 25%) 1fr;
         grid-row: auto;
         column-gap: .5em;
         overflow: hidden;
@@ -61,4 +97,10 @@ export default {
         overflow:auto;
         height: 100%;
     }
-</style>
+    #toolbar nav {
+      display: flex;
+      flex-direction: column;
+    }
+    
+   
+</style>  
