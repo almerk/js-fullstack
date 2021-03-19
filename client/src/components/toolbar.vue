@@ -36,18 +36,25 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   border:none;
+  flex-shrink: 0;
 }
-#toolbar label,
+#toolbar label span,
 #toolbar legend {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  position: relative;
+  width:auto;
+  max-width:100%;
 }
 #toolbar fieldset legend {
     font-size: 0.7em;
-    margin-bottom: 0.25em;
 }
+#toolbar fieldset label{
+    display:flex;
+}
+
 #toolbar input ~ span {
   font-weight: 500;
 }
