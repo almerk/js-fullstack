@@ -2,20 +2,20 @@
 <div id="main">
     <aside>
         <toolbar>
-            <label>Types</label>
-            <nav>
+            <fieldset>
+                <legend @click="showOrHideAllTypes()">Types</legend>
                 <label v-for="type in types" :key="type.id">
                   <input type="checkbox" :value="type.id" v-model="selectedTypeIds"/>
                   <span>{{type.name}}</span>
                 </label>
-            </nav>
-            <label>Calendars</label>
-            <nav>
-                <label v-for="calendar in calendars" :key="calendar.id">
+            </fieldset>
+            <fieldset>
+                <legend @click="showOrHideAllCalendars()">Calendars</legend>
+                <label v-for="calendar in calendars" :key="calendar.id" :class="['']">
                   <input type="checkbox" :value="calendar.id" v-model="selectedCalendarIds" :disabled="!inArray(calendar.typeId, selectedTypeIds)"/>
                   <span>{{calendar.name}}</span>
                 </label>
-            </nav>
+            </fieldset>
         </toolbar>
     </aside>
     <main>
@@ -45,6 +45,19 @@ export default {
   methods: {
     inArray(value, array){
       return array.includes(value);
+    },
+    showOrHideAllTypes() {
+        this.selectedTypeIds = this.showOrHide(this.selectedTypeIds, this.types.map(x => x.id));
+    },
+    showOrHideAllCalendars() {
+       const canBeDisplayed =  this.calendars
+                                  .filter(x => this.selectedTypeIds.includes(x.typeId))
+                                  .map(x => x.id);
+        this.selectedCalendarIds = this.showOrHide(this.selectedCalendarIds, canBeDisplayed);
+    },
+    showOrHide(current, full){
+       const notIn = full.filter(x => !current.includes(x))
+       return notIn.length == 0? [] : full;
     }
   },
   created(){
@@ -97,10 +110,5 @@ export default {
         overflow:auto;
         height: 100%;
     }
-    #toolbar nav {
-      display: flex;
-      flex-direction: column;
-    }
-    
-   
+
 </style>  
