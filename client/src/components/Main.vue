@@ -58,6 +58,12 @@ export default {
     showOrHide(current, full){
        const notIn = full.filter(x => !current.includes(x))
        return notIn.length == 0? [] : full;
+    },
+    eventMapFunction(ev){
+      return { 
+        ...ev, 
+        isDisplayed: this.selectedCalendarIds.includes(ev.calendarId)
+      }
     }
   },
   created(){
@@ -71,7 +77,7 @@ export default {
       return this.$store.getters.calendars;
     },
     events() { 
-        return this.$store.getters.events;
+        return this.$store.getters.events.map(this.eventMapFunction);
     },
   },
     watch: {

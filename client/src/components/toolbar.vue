@@ -45,7 +45,8 @@ export default {
   cursor: pointer;
 }
 #toolbar fieldset legend {
-  margin-bottom: 0.25em;
+    font-size: 0.7em;
+    margin-bottom: 0.25em;
 }
 #toolbar input ~ span {
   font-weight: 500;

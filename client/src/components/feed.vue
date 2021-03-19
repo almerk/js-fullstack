@@ -1,6 +1,6 @@
 <template>
     <div id="feed">
-        <calendar-event v-for="event in events" :key="event.id" :event="event" :class="[{selected:event.id == selectedEventId},  'item']">
+        <calendar-event v-for="event in events" :key="event.id" v-show="event.isDisplayed" :event="event" :class="[{selected:event.id == selectedEventId},  'item']">
         </calendar-event>
     </div>    
 </template>
