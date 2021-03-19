@@ -8,6 +8,7 @@
 <script>
 import calendarEvent from './calendar.event.vue'
 import VueScrollTo from 'vue-scrollto'
+import components from './events/fabric.js'
 export default {
     props:{
         events: Array,
@@ -25,6 +26,9 @@ export default {
         getColor(item){
             return this.colors[item.title.length % this.colors.length];
         },
+    },
+    created(){
+        console.log(components("default").index);
     },
     updated(){
         VueScrollTo.scrollTo(`#event-${this.selectedEventId}`, 500, { container:"#feed", duration:2000 })

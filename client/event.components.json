@@ -1,0 +1,9 @@
+{
+    "default": {
+        "accentColor": { "h":0, "s":0, "l": 50 },
+        "index":{ "path": "./components/events/index.vue"},
+        "create":{ "path": "./components/events/create.vue"},
+        "update":{ "path": "./components/events/update.vue"}, 
+        "delete":{ "path": "./components/events/delete.vue"}
+    }
+}

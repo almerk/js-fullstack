@@ -1,6 +1,7 @@
 const ENV_PATH =  '../.env';
 require('dotenv').config({ path: ENV_PATH })
 var path = require('path')
+const components  = require('./event.components.json')
 var webpack = require('webpack')
 
 module.exports = {
@@ -65,7 +66,8 @@ module.exports.plugins = (module.exports.plugins || []).concat([new webpack.Defi
     'NODE_ENV': JSON.stringify(NODE_ENV),
     'SERVER_PORT': JSON.stringify(SERVER_OUT_PORT),
     'SERVER_HOST': JSON.stringify(SERVER_HOST)
-  }
+  },
+  'components':JSON.stringify(components)
 })]);
 
 console.log(`Client app will retrieve data from ${SERVER_HOST}:${SERVER_OUT_PORT}/.`);
