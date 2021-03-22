@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style>
-
+article{
+    color:red;
+}
 </style>
