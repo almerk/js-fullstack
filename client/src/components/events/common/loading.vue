@@ -1,7 +1,5 @@
 <template>
-    <article>
-        DEFAULT INDEX
-    </article>
+  <div>Loading...</div>
 </template>
 
 <script>
@@ -11,7 +9,5 @@ export default {
 </script>
 
 <style>
-article{
-    color:red;
-}
+
 </style>

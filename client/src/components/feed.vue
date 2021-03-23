@@ -79,7 +79,7 @@ export default {
   transition: 0s;
 }
 .item:not(.selected) > * {
-  display: none;
+  /* display: none; */
 }
 .item:not(.selected) > header {
   display: block;

@@ -1,6 +1,6 @@
 <template>
     <article>
-        Hallelujah index!!!
+        NOTIFICATION INDEX
     </article>
 </template>
 

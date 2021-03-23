@@ -32,8 +32,15 @@ function getAllFromGlobal() {
     return res;
 }
 function getComponent(path) {
-    return (resolve) => require([`${path}`], resolve);
+    return (resolve) => ({
+        component: require([`${path}`], resolve),
+        loading: require('./common/loading.vue'),
+        error: require('./common/error.vue'),
+        delay:0
+    });
 }
+
+
 function appendPrefixToProps(object, prefix) {
     const res = {};
     Object.keys(object).forEach(key => {

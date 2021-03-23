@@ -1,7 +1,5 @@
 <template>
-    <article>
-        DEFAULT INDEX
-    </article>
+  <div class="error">Display error</div>
 </template>
 
 <script>
@@ -11,7 +9,7 @@ export default {
 </script>
 
 <style>
-article{
+.error{
     color:red;
 }
 </style>
