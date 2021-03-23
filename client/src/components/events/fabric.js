@@ -1,19 +1,43 @@
+const KEY_FORMAT = (pref, current) => `${pref}-${current}`
 
-function getComponent(path) {
-    return (resolve) => require([`${path}`], resolve);
+module.exports = {
+    all: getAllFromGlobal(),//should be appended to vue components section
+    is(calendarType, viewType) {//dynamic component name retrieving in v-bind:is attr
+        const type = calendarType.replace("Event",'');
+        if (components[type]) return KEY_FORMAT(type, viewType);
+        console.error(`Undefined event component type: ${type}`);
+        return KEY_FORMAT("default", viewType);
+    }
 }
 
 //TODO: Retrieving component by url
-
-module.exports = function (type) {
-    if (!(components.default.create && components.default.index && components.default.update && components.default.delete))
+function byType(type) {
+    const _ = components.default;
+    if (!(_.create && _.index && _.update && _.delete))
         throw new Error("Default event components are not defined");
-    const _ = { // This is default value
-        create: getComponent(components.default.create.path),
-        index: getComponent(components.default.index.path),
-        update: getComponent(components.default.update.path),
-        delete: getComponent(components.default.delete.path),
-    }
     const ofType = components[type] || _
-    return _;
+    return { // This is default value
+        create: getComponent((ofType.create || _.create).path),
+        index: getComponent((ofType.index || _.index).path),
+        update: getComponent((ofType.update || _.update).path),
+        delete: getComponent((ofType.delete || _.delete).path),
+    }
 };
+
+function getAllFromGlobal() {
+    const res = {};
+    Object.keys(components).forEach(key => {
+        Object.assign(res, appendPrefixToProps(byType(key), key))
+    });
+    return res;
+}
+function getComponent(path) {
+    return (resolve) => require([`${path}`], resolve);
+}
+function appendPrefixToProps(object, prefix) {
+    const res = {};
+    Object.keys(object).forEach(key => {
+        res[KEY_FORMAT(prefix, key)] = object[key];
+    });
+    return res;
+}

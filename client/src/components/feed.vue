@@ -1,13 +1,12 @@
 <template>
   <div id="feed">
-    <test-component/>
+    <!-- <test-component/> -->
     <calendar-event
       v-for="event in events"
       :key="event.id"
       v-show="event.isDisplayed"
       :event="event"
-      :class="[{ selected: event.id == selectedEventId }, 'item']"
-    >
+      :class="[{ selected: event.id == selectedEventId }, 'item']">
     </calendar-event>
   </div>
 </template>
@@ -15,7 +14,7 @@
 <script>
 import calendarEvent from "./calendar.event.vue";
 import VueScrollTo from "vue-scrollto";
-import components from "./events/fabric.js";
+
 
 export default {
   props: {
@@ -24,24 +23,19 @@ export default {
   },
   components: {
     "calendar-event": calendarEvent,
-    testComponent: components("").index
+
   },
   data() {
-    return {
-      colors: ["color-1", "color-2", "color-3", "color-4"],
-    };
+    return { };
   },
   methods: {
-    getColor(item) {
-      return this.colors[item.title.length % this.colors.length];
-    },
   },
-  created() {},
   updated() {
-    VueScrollTo.scrollTo(`#event-${this.selectedEventId}`, 500, {
-      container: "#feed",
-      duration: 2000,
-    });
+    if(this.selectedEventId)
+      VueScrollTo.scrollTo(`#event-${this.selectedEventId}`, 500, {
+        container: "#feed",
+        duration: 2000,
+      });
   },
 };
 </script>

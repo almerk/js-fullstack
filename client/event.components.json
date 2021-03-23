@@ -5,5 +5,26 @@
         "create":{ "path": "./default/create.vue"},
         "update":{ "path": "./default/update.vue"}, 
         "delete":{ "path": "./default/delete.vue"}
+    },
+    "notification": {
+        "accentColor": { "h":25, "s":50, "l": 50 },
+        "index": { "path": "./notification/index.vue"},
+        "create":{ "path": "./notification/create.vue"},
+        "update":{ "path": "./notification/update.vue"}, 
+        "delete":{ "path": "./notification/delete.vue"}
+    },
+    "anniversary": {
+        "accentColor": { "h":50, "s":50, "l": 50 },
+        "index": { "path": "./anniversary/index.vue"},
+        "create":{ "path": "./anniversary/create.vue"},
+        "update":{ "path": "./anniversary/update.vue"}, 
+        "delete":{ "path": "./anniversary/delete.vue"}
+    },
+    "task": {
+        "accentColor": { "h":75, "s":50, "l": 50 },
+        "create":{ "path": "./task/create.vue"},
+        "update":{ "path": "./task/update.vue"}, 
+        "delete":{ "path": "./task/delete.vue"}
     }
+    
 }

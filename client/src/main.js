@@ -7,10 +7,6 @@ import storeObj from './store.js'
 
 Vue.use(Router);
 Vue.use(Vuex);
-
-
-
-
 const store = new Vuex.Store(storeObj);
 
 const router = new Router({

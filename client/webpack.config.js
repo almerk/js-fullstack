@@ -1,7 +1,7 @@
 const ENV_PATH =  '../.env';
 require('dotenv').config({ path: ENV_PATH })
 var path = require('path')
-const components  = require('./event.components.json')
+const components  = require('./event.components.json')//TODO: retrieve some data from folder structure
 var webpack = require('webpack')
 
 module.exports = {
