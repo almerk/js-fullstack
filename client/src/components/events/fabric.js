@@ -36,7 +36,6 @@ function getComponent(path) {
         component: require([`${path}`], resolve),
         loading: require('./common/loading.vue'),
         error: require('./common/error.vue'),
-        delay:0
     });
 }
 

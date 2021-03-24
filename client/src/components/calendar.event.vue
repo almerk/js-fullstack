@@ -1,7 +1,5 @@
 <template>
-  <article @click="eventClick(event.id)" :id="`event-${event.id}`">
-      <component :is="view"></component>
-  </article>
+      <component :is="view" :event="event"  @click.native="eventClick(event.id)" :id="`event-${event.id}`"></component>
 </template>
 
 <script>
@@ -33,6 +31,5 @@ export default {
   },
 };
 </script>
-
 <style >
 </style>

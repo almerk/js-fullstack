@@ -51,37 +51,9 @@ export default {
   width: 100%;
   overflow-y: auto;
 }
-.item {
-  --s: auto;
-  --c: 0, 0, 0;
-  overflow: hidden;
-  border: 3px solid rgb(var(--c));
-  margin: 2px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  transition: 0.5s;
-}
-.item.selected label {
-  text-indent: 0;
-  color: rgb(var(--c));
-}
-.item.selected > * {
-  text-indent: 0.5em;
-}
-.item.selected {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+#feed .selected {
   grid-column-start: 1;
   grid-column-end: -1;
-  grid-row: span 10;
-  overflow: initial;
-  transition: 0s;
-}
-.item:not(.selected) > * {
-  /* display: none; */
-}
-.item:not(.selected) > header {
-  display: block;
+  grid-row: span 12;
 }
 </style>
