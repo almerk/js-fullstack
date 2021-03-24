@@ -13,8 +13,8 @@ export default {
     data(){ return{} },
     methods:{
         transform(rrule){
-            const rule = RRule.fromString(rrule)
-            return rule.toText();
+            const rule = RRule.fromString()
+            return rule.toText((t)=>{console.log(t)});
         }
     },
     created(){}

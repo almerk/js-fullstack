@@ -178,14 +178,14 @@ objects.forEach(object => {
 */
 const dates = []
 const freq = [ RRule.YEARLY, RRule.MONTHLY, RRule.WEEKLY, RRule.DAILY, RRule.HOURLY]
-const getRandomRRules = () => Array.from({length: rand(1 , 4) }, () => 
+const getRandomRRule = (hasTime) =>
     new RRule({
-        freq: freq[rand(0,freq.length-1)],
-        dtstart : rand(0,5)!=5? getRandomDate(true) : undefined,
+        freq: freq[rand(0, freq.length-1)],
+        dtstart : rand(0,5)!=5? getRandomDate(hasTime) : undefined,
         interval: rand(1,3),
-        until: rand(0,5)==5? getRandomDate(true) : undefined
-    }).toString()
-);
+        until: rand(0,5)==5? getRandomDate(hasTime) : undefined
+    }).toString();
+
 calendarEvents.forEach(event => {
     switch(event.type){
         case 'anniversaryEvent' :
@@ -201,9 +201,8 @@ calendarEvents.forEach(event => {
                 eventId: event.id,
                 type:"reccurenceDate",
                 hasTime: false,
-                rrules:[
-                    rrule.toString()
-                ]
+                rrule:rrule.toString()
+                
             });
             
         break;
@@ -237,7 +236,7 @@ calendarEvents.forEach(event => {
                         date = {
                             ...date,
                              type:'reccurenceDate',
-                             rrules:getRandomRRules()
+                             rrule:getRandomRRule(date.hasTime)
                          }
                         break;
                     case 3:
@@ -245,7 +244,7 @@ calendarEvents.forEach(event => {
                             ...date,
                              type:'continuousReccurenceDate',
                              start: getRandomDate(date.hasTime),
-                             rrules:getRandomRRules()
+                             rrule:getRandomRRule()
                          }
                          date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
                         break;
@@ -282,7 +281,7 @@ calendarEvents.forEach(event => {
                         date = {
                             ...date,
                              type:'reccurenceDate',
-                             rrules:getRandomRRules()
+                             rrule:getRandomRRule(date.hasTime)
                          }
                          if(rand(0, 2) > 0){
                              dates.push({
@@ -300,7 +299,7 @@ calendarEvents.forEach(event => {
                             ...date,
                              type:'continuousReccurenceDate',
                              start: getRandomDate(date.hasTime),
-                             rrules:getRandomRRules()
+                             rrule:getRandomRRule(date.hasTime)
                          }
                          if(rand(0, 2) > 0){
                             dates.push({
