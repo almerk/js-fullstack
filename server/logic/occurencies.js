@@ -68,10 +68,8 @@ function getDates(date, startDay, finishDay) {
         }
         case 'reccurenceDate':
         {
-            return date.rrules.map(r => {
-                const rrule = rrulestr(r);
-                return rrule.between(startDay, finishDay);
-            }).reduce((a, b) => a.concat(b)).map(x => ({
+            return RRule.fromString(date.rrule).between(startDay, finishDay)
+            .map(x => ({
                 value: x,
                 hasTime: date.hasTime,
                 belonging: null
