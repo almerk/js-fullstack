@@ -1,7 +1,7 @@
 const dateAndTime = require('date-and-time');
 const { RRule, RRuleSet, rrulestr } = require('rrule')
 const rand = (min, max) => min + Math.floor(Math.random() * (max + 1 - min));
-
+const DEFAULT_DATE = new Date();
 
 const GROUPS_COUNT = 6;
 const USERS_COUNT = rand(GROUPS_COUNT * 5, GROUPS_COUNT * 15);
