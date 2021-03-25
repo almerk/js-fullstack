@@ -24,7 +24,6 @@ export default {
   },
   computed: {
     hasStartDate() {
-      console.log(this.value.eventId);
       return this.rrule.origOptions.dtstart != undefined;
     },
     rrule() {
