@@ -103,7 +103,8 @@ for (let i = 0; i < EVENTS_COUNT; i++) {
             id: getObjectId(),
             calendarId: calendars[Math.floor(Math.random() * calendars.length)].id,
             name: getRandomName(),
-            description: i % 3 == 0 ? '' : getRandomName()
+            description: i % 3 == 0 ? '' : getRandomName(),
+            dates: []
         })
     );
 }
@@ -176,12 +177,11 @@ objects.forEach(object => {
     3. Notification events can have all type of dates and can have no date. All these events must be displayed to user
     4. Occurence is a composed value. It is composed from date
 */
-const dates = []
 const freq = [RRule.YEARLY, RRule.MONTHLY, RRule.WEEKLY, RRule.DAILY, RRule.HOURLY]
 const getRandomRRule = (hasTime, start) =>
     new RRule({
         freq: freq[rand(0, freq.length - 1)],
-        dtstart:  start || (rand(0, 5) != 5 ? getRandomDate(hasTime) : undefined),
+        dtstart: start || (rand(0, 5) != 5 ? getRandomDate(hasTime) : undefined),
         interval: rand(1, 3),
         until: rand(0, 5) == 5 ? getRandomDate(hasTime) : undefined
     }).toString();
@@ -197,7 +197,7 @@ calendarEvents.forEach(event => {
                 bymonthday: rand(1, 28),
                 bymonth: rand(1, 12)
             });
-            dates.push({
+            event.dates.push({
                 eventId: event.id,
                 type: "reccurenceDate",
                 hasTime: false,
@@ -249,7 +249,7 @@ calendarEvents.forEach(event => {
                         date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
                         break;
                 }
-                dates.push(date);
+                event.dates.push(date);
             }
             break;
         case 'taskEvent':
@@ -283,7 +283,7 @@ calendarEvents.forEach(event => {
                             rrule: getRandomRRule(date.hasTime)
                         }
                         if (rand(0, 2) > 0) {
-                            dates.push({
+                            event.dates.push({
                                 eventId: event.id,
                                 hasTime: rand(0, 1) > 0,
                                 type: 'simpleDate',
@@ -302,7 +302,7 @@ calendarEvents.forEach(event => {
                             rrule: getRandomRRule(date.hasTime, start)
                         }
                         if (rand(0, 2) > 0) {
-                            dates.push({
+                            event.dates.push({
                                 eventId: event.id,
                                 isExcept: true,
                                 hasTime: rand(0, 1) > 0,
@@ -315,13 +315,12 @@ calendarEvents.forEach(event => {
                         date.end = dateAndTime.addMinutes(date.start, rand(30, 20160))
                         break;
                 }
-                dates.push(date);
+                event.dates.push(date);
             }
             break;
     }
 
 });
-
 module.exports = {
     groups,
     users,
@@ -330,6 +329,5 @@ module.exports = {
     calendars,
     calendarEvents,
     objects,
-    relations,
-    dates
+    relations
 }

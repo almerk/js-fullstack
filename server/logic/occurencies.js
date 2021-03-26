@@ -14,7 +14,7 @@ function computeOccurencies(dateArray, start, finish) {
             isExcept: v.isExcept
         }))
     })
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b),[])
     .filter(x => x.dateTime.value >= start && x.dateTime.value <= finish)
     .reduce((gr, d) => {
         (gr[d.eventId] = gr[d.eventId] || []).push(d);
@@ -30,7 +30,7 @@ function computeOccurencies(dateArray, start, finish) {
         }
     });
     const result = Object.values(groupedByEventId)
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
     .sort((a, b) => a.dateTime.value - b.dateTime.value);
     result.forEach(x => { delete x.isExcept });
     return result;

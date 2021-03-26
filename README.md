@@ -55,17 +55,17 @@ Server app provides fake api to these listed entities:
 | ------------- | ------------- | ------------------------------------------ | --------------- |
 | #calendarTypes | /calendarTypes/:id? | [id](#objects),<br/><hr/> name | 
 | #calendars<sup>extensible</sup> | /calendars/:id? | [id](#objects), <br/><hr/> [typeId](#calendarTypes), <br/> name,<br>**...** | _typeId determines calendar type._, _This entity can be extended._|
-| #calendarEvents<sup>extensible</sup> | /calendarEvents/:id? | [id](#objects),<hr/>[calendarId](#calendars),<br/>name, <br/> description, **...** | _this entity can be extended._ _The [calendar type](#calendarTypes) determines the type of event._ |
+| #calendarEvents<sup>extensible</sup> | /calendarEvents/:id? | [id](#objects),<hr/>[calendarId](#calendars),<br/>name,<br/>[dates](#dates)<br/> description, **...** | _this entity can be extended._ _The [calendar type](#calendarTypes) determines the type of event._ |
 
 ### Calendario event date domain
 | Entity | Urls | Fields | Comments |
 | ------------- | ------------- | ------------------------------------------ | --------------- |
-| #dates<sup>extensible</sup>| /dates |[eventId](#eventId),<br/> $type,<br/>isExcept,<br/> **...** |  |
+| #dates<sup>extensible</sup>| No url provided. These VO are included in calendarEvent entity |[eventId](#eventId),<br/> $type,<br/>isExcept,<br/> **...** |  |
 | #dates$type=simpleDate | - | dateTime,<br/> hasTime <br/> | |
 | #dates$type=continuousDate| - | start, end,<br/>hasTime| |
 | #dates$type=reccurenceDate| - | hasTime,<br/>rrule | |
 | #dates$type=continuousReccurenceDate | - | start, end,<br/>hasTime,<br/> rrule | |
-| occurence | /dates/from/:start/till/:end | [eventId](#eventId),<br/> dateTime.value,<br/> dateTime.hasTime <br/> dateTime.belonging<sup>[nullable]</sup>, status<sup>[nullable]</sup> | |
+| occurence | /dates/from/:start/till/:end | [eventId](#eventId),<br/> dateTime.value,<br/> dateTime.hasTime <br/> dateTime.belonging<sup>[nullable]</sup>, status<sup>[nullable]</sup> | _Event occurencies are calculated from dates_|
 
 These entities are randomly generated when server app starts.
 

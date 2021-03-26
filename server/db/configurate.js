@@ -13,12 +13,10 @@ module.exports = async (db) => {
     db.collection("subjects").insertMany(entities.subjects, insertFunc );     
     db.collection("objects").insertMany(entities.objects, insertFunc);     
     db.collection("relations").insertMany(entities.relations, insertFunc);     
-    db.collection("dates").insertMany(entities.dates, insertFunc);
     
     return {
         subjects: db.collection("subjects"),
         objects: db.collection("objects"),
         relations: db.collection('relations'),
-        dates: db.collection('dates')
     }
 }
