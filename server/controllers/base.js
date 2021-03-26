@@ -1,9 +1,13 @@
 module.exports = function(collectionName, {notFoundErrorText} = { }){
     const getCollection = (req) => req.app.locals[collectionName];
-    const convertResultEntity = (entity) => {
+    function convertResultEntity(entity){
         delete entity._id;
         entity.$type = entity.type;
         delete entity.type;
+        if(entity.dates) {
+            entity.dates.forEach(convertResultEntity)
+        }
+        
     };
     const transformQuery = (query)=>{
         const res = { ... query };

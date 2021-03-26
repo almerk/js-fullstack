@@ -13,16 +13,30 @@
     </main>
     <aside>
       <section class="dates">
-        <fieldset>
-          <legend>
-            Dates<badge>{{ dates.length }}</badge>
-          </legend>
-          <ul>
-            <li v-for="(date, index) in dates" :key="index">
-              <date :value="date"></date>
-            </li>
-          </ul>
-        </fieldset>
+        <main>
+          <fieldset>
+            <legend>
+              Dates<badge>{{ dates.length }}</badge>
+            </legend>
+            <ul>
+              <li v-for="(date, index) in dates" :key="index">
+                <date :value="date"></date>
+              </li>
+            </ul>
+          </fieldset>
+        </main>
+        <aside v-if="hasExceptDates">
+          <fieldset>
+            <legend>
+              Except<badge>{{ exceptDates.length }}</badge>
+            </legend>
+            <ul>
+              <li v-for="(date, index) in exceptDates" :key="index">
+                <date :value="date"></date>
+              </li>
+            </ul>
+          </fieldset>
+        </aside>
       </section>
       <section>
         <fieldset><legend>Users</legend></fieldset>
@@ -48,9 +62,14 @@ export default {
   },
   computed: {
     dates() {
-      return this.$store.getters.dates.filter(
-        (x) => x.eventId == this.event.id
-      );
+      return this.event.dates.filter((x) => !x.isExcept);
+    },
+    exceptDates() {
+      return this.event.dates.filter((x) => x.isExcept);
+    },
+    hasExceptDates() {
+      if (this.exceptDates.length > 0) console.log(this.event.id);
+      return this.exceptDates.length > 0;
     },
     relations() {
       return this.$store.getters.relations.filter(
@@ -121,7 +140,19 @@ export default {
 .event-content > aside {
   font-size: 0.95em;
 }
-.dates time{
-    font-size: .9em;
+.dates ul {
+  list-style: none;
+}
+.dates {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1em;
+}
+.dates > * {
+  width: auto;
+}
+.dates time {
+  font-size: 0.9em;
 }
 </style>

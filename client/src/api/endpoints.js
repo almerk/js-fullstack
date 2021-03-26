@@ -3,7 +3,6 @@ export default {
     common:{
         subjects: `${SERVER_ADDR}/subjects`,
         objects:`${SERVER_ADDR}/objects`,
-        dates:`${SERVER_ADDR}/dates`,
         relations:`${SERVER_ADDR}/relations`
     }
 }
