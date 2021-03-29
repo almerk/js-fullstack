@@ -39,7 +39,9 @@
         </aside>
       </section>
       <section>
-        <fieldset><legend>Users</legend></fieldset>
+        <fieldset><legend>Users</legend>
+            <subjectsTree :relations="relations"></subjectsTree>
+        </fieldset>
       </section>
     </aside>
   </article>
@@ -48,11 +50,13 @@
 <script>
 import date from "../../dates/base.vue";
 import badge from "../../ui/badge.vue";
+import subjectsTree from "../../subjects/index-tree.vue"
 
 export default {
   components: {
     date,
     badge,
+    subjectsTree
   },
   props: {
     event: Object,
@@ -68,14 +72,13 @@ export default {
       return this.event.dates.filter((x) => x.isExcept);
     },
     hasExceptDates() {
-      if (this.exceptDates.length > 0) console.log(this.event.id);
       return this.exceptDates.length > 0;
     },
     relations() {
       return this.$store.getters.relations.filter(
         (x) => x.objectId == this.event.id
       );
-    },
+    }
   },
   created() {},
 };
@@ -139,6 +142,11 @@ export default {
 }
 .event-content > aside {
   font-size: 0.95em;
+  flex-shrink: 1;
+  overflow:auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 .dates ul {
   list-style: none;
