@@ -1,7 +1,11 @@
 <template>
   <ul>
     <label :class="subject.$type">
-      <input type="checkbox" v-model="isChecked" />
+      <input
+        type="checkbox"
+        v-model="isChecked"
+        :intermediate="containsSelected"
+      />
       <span>{{ subject.name }}</span>
       <badge v-if="subject.$type == 'group'">{{ selectedUsers }}</badge>
     </label>
@@ -60,6 +64,22 @@ export default {
       set(value) {
         this.emitChanged(this.subject.id, value);
       },
+    },
+    containsSelected() {
+      if (this.isChecked) return false;
+      if (this.subject.$type == "user") return false;
+
+      const compute = (s) => {
+        if (s.$type == "user") return [s.id];
+        return this.getChildren(s)
+          .map((x) => compute(x))
+          .reduce((x, y) => x.concat(y), []);
+      };
+      const allUsersIds = compute(this.subject).reduce(
+        (x, y) => x.concat(y),
+        []
+      );
+      return allUsersIds.some((x) => this.selected.includes(x));
     },
   },
 
