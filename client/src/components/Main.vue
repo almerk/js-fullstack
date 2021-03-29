@@ -91,7 +91,8 @@ export default {
       return this.calendars.filter((x) => x.typeId == id).length;
     },
     eventsOfCalendar(id) {
-      return this.$store.getters.events.filter((x) => x.calendarId == id).length;
+      return this.$store.getters.events.filter((x) => x.calendarId == id)
+        .length;
     },
     eventMapFunction(ev) {
       return {

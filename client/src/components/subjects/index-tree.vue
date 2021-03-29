@@ -1,10 +1,11 @@
 <template>
-  <div role="tree">
+  <div role="tree" :class="{ 'view': viewOnly }">
     <tree-item
       :subject="root"
       :groups="groups"
       :users="users"
       :selected="subjectIds"
+      :view-only="viewOnly"
       @changed="selectionChanged"
     ></tree-item>
   </div>
@@ -15,6 +16,7 @@ import treeItem from "./tree-item.vue";
 export default {
   props: {
     relations: Array,
+    viewOnly: Boolean,
   },
   components: {
     treeItem,
@@ -24,8 +26,8 @@ export default {
       subjectIds: [],
     };
   },
-  created(){
-      this.subjectIds = this.relations.map((x) => x.subjectId);
+  created() {
+    this.subjectIds = this.relations.map((x) => x.subjectId);
   },
   computed: {
     groups() {
@@ -52,11 +54,11 @@ export default {
       } else {
         if (index > -1) this.$delete(this.subjectIds, index);
       }
-      this.inheritValue(id, value)
+      this.inheritValue(id, value);
     },
     inheritValue(id, value) {
-        this.children(id).forEach(x => this.selectionChanged(x, value));
-    }
+      this.children(id).forEach((x) => this.selectionChanged(x, value));
+    },
   },
 };
 </script>
@@ -65,5 +67,10 @@ export default {
 div[role="tree"] {
   font-size: 12pt;
   overflow: auto;
+}
+div[role="tree"].view .indeterminate:not(:hover){
+    opacity:0;
+    display: block;
+    height:0;
 }
 </style>

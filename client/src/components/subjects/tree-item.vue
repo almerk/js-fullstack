@@ -1,10 +1,11 @@
 <template>
   <ul>
-    <label :class="subject.$type">
+    <label :class="[{indeterminate:containsSelected},subject.$type]" v-show="showCase">
       <input
         type="checkbox"
         v-model="isChecked"
-        :intermediate="containsSelected"
+        :indeterminate="containsSelected"
+        :disabled="viewOnly"
       />
       <span>{{ subject.name }}</span>
       <badge v-if="subject.$type == 'group'">{{ selectedUsers }}</badge>
@@ -16,6 +17,7 @@
           :users="users"
           :groups="groups"
           :selected="selected"
+          :view-only="viewOnly"
           @changed="emitChanged"
         ></tree-item>
       </li>
@@ -33,11 +35,18 @@ export default {
     users: Array,
     groups: Array,
     selected: Array,
+    viewOnly: Boolean,
   },
   data() {
     return {};
   },
   computed: {
+    showCase() {
+        if(!this.viewOnly) return true;
+        if(this.isChecked) return true;
+        if(this.containsSelected) return true;
+        return false;
+    },
     children() {
       return this.getChildren(this.subject);
     },
@@ -116,14 +125,31 @@ ul.inner {
   padding-left: 0.4em;
 }
 label {
-  font-weight: initial;
+  font-weight: 100;
   font-size: 1em;
   cursor: pointer;
+  text-transform: none;
 }
 label.group {
+  text-transform: uppercase;
+}
+input:checked ~ span {
   font-weight: 600;
 }
-label.user {
-  text-transform: none;
+
+input[indeterminate] ~ span {
+  font-weight: 400;
+}
+input[type="checkbox"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 </style>

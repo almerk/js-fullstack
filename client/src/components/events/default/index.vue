@@ -40,7 +40,7 @@
       </section>
       <section>
         <fieldset><legend>Users</legend>
-            <subjectsTree :relations="relations"></subjectsTree>
+            <subjectsTree :relations="relations" :viewOnly="true"></subjectsTree>
         </fieldset>
       </section>
     </aside>
@@ -142,12 +142,13 @@ export default {
 }
 .event-content > aside {
   font-size: 0.95em;
-  flex-shrink: 1;
+  flex-shrink: 0;
   overflow:auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
 }
+
 .dates ul {
   list-style: none;
 }
@@ -163,4 +164,5 @@ export default {
 .dates time {
   font-size: 0.9em;
 }
+
 </style>
