@@ -6,7 +6,6 @@
         <span>{{ event.name }}</span>
       </fieldset>
     </header>
-
     <main>
       <slot name="content"></slot>
       <fieldset>
@@ -90,12 +89,11 @@ export default {
 
 <style>
 .event-content {
+  --hsl: var(--color-h), var(--color-s), var(--color-l);
   width: 100%;
   height: 100%;
-  --s: auto;
-  --c: 0, 0, 0;
   overflow: hidden;
-  border: 3px solid rgb(var(--c));
+  border: 2px solid hsl(var(--hsl));
   margin: 2px;
   position: relative;
   display: flex;
@@ -105,7 +103,7 @@ export default {
 .event-content:not(.selected) aside {
   display: none;
 }
-.event-content:not(.selected) > *:not(header){
+.event-content:not(.selected) > *:not(header) {
   display: none;
 }
 .event-content:not(.selected) header {
@@ -124,7 +122,7 @@ export default {
   flex-direction: column;
   margin: 0.4em 0;
 }
-.event-content > header{
+.event-content > header {
   position: sticky;
   top: 0;
   background: rgb(255, 255, 255, 0.7);
@@ -149,9 +147,12 @@ export default {
 .event-content:not(.selected) legend {
   display: none;
 }
+.event-content:not(.selected):hover{
+  box-shadow: hsla(var(--hsl), 0.7) 1px 1px 2px 1px, hsla(var(--hsl), 0.7) -1px -1px 2px 1px
+}
 .event-content.selected {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow: hsla(var(--hsl), 0.6) 3px 3px 4px 2px,
+    hsla(var(--hsl), 0.56) -3px -3px 4px 2px;
 }
 .event-content textarea {
   outline: none;

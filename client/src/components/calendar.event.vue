@@ -1,5 +1,11 @@
 <template>
-      <component :is="view" :event="event"  @click.native="eventClick(event.id)" :id="`event-${event.id}`"></component>
+  <component
+    :is="view"
+    :event="event"
+    @click.native="eventClick(event.id)"
+    :id="`event-${event.id}`"
+    :style="styleObj"
+  ></component>
 </template>
 
 <script>
@@ -15,18 +21,28 @@ export default {
   },
   data() {
     return {
-        currentView: 'index'
+      currentView: "index",
     };
   },
   computed: {
-      view() {
-          return events.is(this.event.$type, this.currentView);
-      }
+    view() {
+      return events.is(this.event.$type, this.currentView);
+    },
+    color() {
+      return events.typeColorHSL(this.event.$type, 0);
+    },
+    styleObj() {
+      return {
+        "--color-h": this.color.h,
+        "--color-s": this.color.s+'%',
+        "--color-l": this.color.l+'%'
+      };
+    },
   },
   methods: {
     eventClick(id) {
-        const path = `/events/${id}`;
-        if (this.$route.path !== path) this.$router.push(path)
+      const path = `/events/${id}`;
+      if (this.$route.path !== path) this.$router.push(path);
     },
   },
 };

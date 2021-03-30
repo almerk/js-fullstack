@@ -3,11 +3,23 @@ const KEY_FORMAT = (pref, current) => `${pref}-${current}`
 module.exports = {
     all: getAllFromGlobal(),//should be appended to vue components section
     is(calendarType, viewType) {//dynamic component name retrieving in v-bind:is attr
-        const type = calendarType.replace("Event",'');
+        const type = calendarType.replace("Event", '');
         if (components[type]) return KEY_FORMAT(type, viewType);
         console.error(`Undefined event component type: ${type}`);
         return KEY_FORMAT("default", viewType);
-    }
+    },
+    typeColorHSL(calendarType, offset) {
+        const type = calendarType.replace("Event", '');
+        if (components[type]) {
+            const color = components[type].accentColor
+            return {
+                ...color,
+                h: color.h + (offset || 0)
+            };
+        }
+        console.error(`Undefined event component type: ${type}`);
+        return components.default.accentColor
+    },
 }
 
 //TODO: Retrieving component by url

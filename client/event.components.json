@@ -1,18 +1,42 @@
 {
     "default": {
-        "accentColor": { "h":0, "s":0, "l": 50 },
-        "index": { "path": "./default/index.vue"},
-        "create":{ "path": "./default/create.vue"},
-        "update":{ "path": "./default/update.vue"}, 
-        "delete":{ "path": "./default/delete.vue"}
+        "accentColor": {
+            "h": 0,
+            "s": 0,
+            "l": 0
+        },
+        "index": {
+            "path": "./default/index.vue"
+        },
+        "create": {
+            "path": "./default/create.vue"
+        },
+        "update": {
+            "path": "./default/update.vue"
+        },
+        "delete": {
+            "path": "./default/delete.vue"
+        }
     },
     "notification": {
-        "accentColor": { "h":25, "s":50, "l": 50 }
+        "accentColor": {
+            "h": 227,
+            "s": 50,
+            "l": 30
+        }
     },
     "anniversary": {
-        "accentColor": { "h":50, "s":50, "l": 50 }
+        "accentColor": {
+            "h": 128,
+            "s": 50,
+            "l": 30
+        }
     },
     "task": {
-        "accentColor": { "h":75, "s":50, "l": 50 }
+        "accentColor": {
+            "h": 0,
+            "s": 73,
+            "l": 30
+        }
     }
 }

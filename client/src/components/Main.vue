@@ -6,7 +6,7 @@
           <legend @click="showOrHideAllTypes()">Types</legend>
           <ul>
             <li v-for="type in types" :key="type.id">
-              <label>
+              <label :style="styleObj(type.name)" class="type">
                 <input
                   type="checkbox"
                   :value="type.id"
@@ -21,8 +21,12 @@
         <fieldset>
           <legend @click="showOrHideAllCalendars()">Calendars</legend>
           <ul>
-            <li v-for="calendar in calendars" :key="calendar.id">
-              <label>
+            <li
+              v-for="calendar in calendars"
+              :key="calendar.id"
+              :style="styleObj(getType(calendar.typeId).name)"
+            >
+              <label class="calendar">
                 <input
                   type="checkbox"
                   :value="calendar.id"
@@ -49,6 +53,7 @@ import toolbar from "../components/toolbar.vue";
 import feed from "../components/feed.vue";
 import badge from "../components/ui/badge";
 import Badge from "./ui/badge.vue";
+import events from "../components/events/fabric.js";
 
 export default {
   components: {
@@ -99,6 +104,20 @@ export default {
         ...ev,
         isDisplayed: this.selectedCalendarIds.includes(ev.calendarId),
       };
+    },
+    color(typeName) {
+      return events.typeColorHSL(typeName.toLowerCase(), 0);
+    },
+    styleObj(typeName) {
+      const color = this.color(typeName);
+      return {
+        "--color-h": color.h,
+        "--color-s": color.s + "%",
+        "--color-l": color.l + "%",
+      };
+    },
+    getType(id) {
+      return this.types.find((x) => x.id == id);
     },
   },
   created() {
@@ -161,5 +180,15 @@ export default {
 #main > * {
   overflow: auto;
   height: 100%;
+}
+#main label.type,#main label.calendar {
+  --hsl: var(--color-h), var(--color-s), var(--color-l);
+}
+#main label.type span, #main label.calendar span  {
+  text-shadow: hsla(var(--hsl), 0.4) 0px 0px 1px,
+    hsla(var(--hsl), 0.4) 0px 0px 1px;
+}
+#main label.type sup, #main label.calendar sup {
+  color: hsl(var(--hsl));
 }
 </style>  
