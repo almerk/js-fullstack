@@ -1,7 +1,7 @@
 <template>
   <article class="event-content">
     <main>
-      <fieldset>
+      <fieldset class="header">
         <legend>Name</legend>
         <header>{{ event.name }}</header>
       </fieldset>
@@ -98,6 +98,19 @@ export default {
   flex-direction: column;
   transition: 0.5s;
 }
+.event-content:not(.selected) aside{
+  display: none;
+}
+.event-content:not(.selected) main>fieldset:not(.header){
+  display: none;
+}
+.event-content:not(.selected) fieldset.header{
+  font-size:.7em;
+  letter-spacing: 0px;
+  font-weight:100;
+  line-height: 1em;
+}
+
 .event-content.selected {
   overflow: auto;
 }
@@ -143,7 +156,6 @@ export default {
 .event-content > aside {
   font-size: 0.95em;
   flex-shrink: 0;
-  overflow:auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;

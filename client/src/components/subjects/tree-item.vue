@@ -1,7 +1,7 @@
 <template>
   <ul
     v-if="showCase"
-    :class="[{ collapsed: selectedUsers==1 }, subject.$type]"
+    :class="[{ collapsed: selectedUsers == 1 }, subject.$type]"
   >
     <label :class="[{ indeterminate: containsSelected }]">
       <input
@@ -12,6 +12,16 @@
       />
       <span>{{ subject.name }}</span>
       <badge v-if="subject.$type == 'group'">{{ selectedUsers }}</badge>
+      <span v-if="viewOnly && currentRoles">
+        <span
+          v-for="(role, i) in currentRoles.other"
+          :key="i"
+          class="role"
+          :title="role"
+        >
+          {{ getRoleView(role) }}
+        </span>
+      </span>
     </label>
     <ul v-if="this.children.length" class="inner">
       <li v-for="child in children" :key="child.id">
@@ -21,6 +31,7 @@
           :groups="groups"
           :selected="selected"
           :view-only="viewOnly"
+          :roles="roles"
           @changed="emitChanged"
         ></tree-item>
       </li>
@@ -30,6 +41,11 @@
 
 <script>
 import badge from "../ui/badge.vue";
+const roles = {
+  acceptor: "👌",
+  perfomer: "✍️",
+  owner: "🔑",
+};
 export default {
   components: { badge },
   name: "tree-item",
@@ -39,6 +55,7 @@ export default {
     groups: Array,
     selected: Array,
     viewOnly: Boolean,
+    roles: Array,
   },
   data() {
     return {};
@@ -93,6 +110,9 @@ export default {
       );
       return allUsersIds.some((x) => this.selected.includes(x));
     },
+    currentRoles() {
+      return this.roles.find((x) => x.subjectId == this.subject.id);
+    },
   },
 
   methods: {
@@ -115,6 +135,9 @@ export default {
           .reduce((x, y) => x + y);
       };
       return compute(subj);
+    },
+    getRoleView(role) {
+      return roles[role] || role;
     },
   },
 };

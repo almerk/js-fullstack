@@ -6,6 +6,7 @@
       :users="users"
       :selected="subjectIds"
       :view-only="viewOnly"
+      :roles="roles"
       @changed="selectionChanged"
     ></tree-item>
   </div>
@@ -39,6 +40,13 @@ export default {
     root() {
       return this.groups.find((x) => !x.parentId);
     },
+    roles() {
+      return this.relations.map((x) => ({
+        subjectId: x.subjectId,
+        access: { read: x.canRead, update: x.canUpdate, delete: x.canDelete },
+        other: x.characteristics,
+      }));
+    },
   },
   methods: {
     children(id) {
@@ -67,6 +75,7 @@ export default {
 div[role="tree"] {
   font-size: 12pt;
   overflow: auto;
+  max-width: 100%;
 }
 div[role="tree"] ul.group:hover {
   box-shadow: inset 1px 0 0 0 black;
@@ -90,13 +99,23 @@ div[role="tree"].view .collapsed.group > * {
 }
 div[role="tree"].view .collapsed.group > .indeterminate {
   max-width: 25%;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
   overflow: hidden;
-  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  position: relative;
+  padding-right:.5em;
 }
-div[role="tree"].view .collapsed.group > .indeterminate::after{
-    content:' > ';
-    font-weight: 700;
+div[role="tree"].view .collapsed.group > .indeterminate [role=badge]{
+    visibility: hidden;
+}
+div[role="tree"].view .collapsed.group > .indeterminate::after {
+  position: absolute;
+  content: " > ";
+  z-index: 1;
+  font-weight: 700;
+  right: 0;
+  top: 0;
 }
 div[role="tree"] .collapsed.group > ul {
   flex-grow: 1;
