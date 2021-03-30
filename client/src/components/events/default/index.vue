@@ -1,10 +1,13 @@
 <template>
   <article class="event-content">
-    <main>
-      <fieldset class="header">
+    <header>
+      <fieldset>
         <legend>Name</legend>
-        <header>{{ event.name }}</header>
+        <span>{{ event.name }}</span>
       </fieldset>
+    </header>
+
+    <main>
       <slot name="content"></slot>
       <fieldset>
         <legend>Description</legend>
@@ -39,8 +42,9 @@
         </aside>
       </section>
       <section>
-        <fieldset><legend>Users</legend>
-            <subjectsTree :relations="relations" :viewOnly="true"></subjectsTree>
+        <fieldset>
+          <legend>Users</legend>
+          <subjectsTree :relations="relations" :viewOnly="true"></subjectsTree>
         </fieldset>
       </section>
     </aside>
@@ -50,13 +54,13 @@
 <script>
 import date from "../../dates/base.vue";
 import badge from "../../ui/badge.vue";
-import subjectsTree from "../../subjects/index-tree.vue"
+import subjectsTree from "../../subjects/index-tree.vue";
 
 export default {
   components: {
     date,
     badge,
-    subjectsTree
+    subjectsTree,
   },
   props: {
     event: Object,
@@ -78,7 +82,7 @@ export default {
       return this.$store.getters.relations.filter(
         (x) => x.objectId == this.event.id
       );
-    }
+    },
   },
   created() {},
 };
@@ -98,16 +102,16 @@ export default {
   flex-direction: column;
   transition: 0.5s;
 }
-.event-content:not(.selected) aside{
+.event-content:not(.selected) aside {
   display: none;
 }
-.event-content:not(.selected) main>fieldset:not(.header){
+.event-content:not(.selected) > *:not(header){
   display: none;
 }
-.event-content:not(.selected) fieldset.header{
-  font-size:.7em;
+.event-content:not(.selected) header {
+  font-size: 0.7em;
   letter-spacing: 0px;
-  font-weight:100;
+  font-weight: 100;
   line-height: 1em;
 }
 
@@ -119,6 +123,11 @@ export default {
   display: flex;
   flex-direction: column;
   margin: 0.4em 0;
+}
+.event-content > header{
+  position: sticky;
+  top: 0;
+  background: rgb(255, 255, 255, 0.7);
 }
 .event-content.selected fieldset:first-child {
   margin-top: 0;
@@ -176,5 +185,4 @@ export default {
 .dates time {
   font-size: 0.9em;
 }
-
 </style>
