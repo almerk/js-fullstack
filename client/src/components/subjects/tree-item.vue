@@ -1,6 +1,9 @@
 <template>
-  <ul>
-    <label :class="[{indeterminate:containsSelected},subject.$type]" v-show="showCase">
+  <ul
+    v-if="showCase"
+    :class="[{ collapsed: selectedUsers==1 }, subject.$type]"
+  >
+    <label :class="[{ indeterminate: containsSelected }]">
       <input
         type="checkbox"
         v-model="isChecked"
@@ -42,10 +45,10 @@ export default {
   },
   computed: {
     showCase() {
-        if(!this.viewOnly) return true;
-        if(this.isChecked) return true;
-        if(this.containsSelected) return true;
-        return false;
+      if (!this.viewOnly) return true;
+      if (this.isChecked) return true;
+      if (this.containsSelected) return true;
+      return false;
     },
     children() {
       return this.getChildren(this.subject);
@@ -130,13 +133,12 @@ label {
   cursor: pointer;
   text-transform: none;
 }
-label.group {
+ul.group > label {
   text-transform: uppercase;
 }
 input:checked ~ span {
   font-weight: 600;
 }
-
 input[indeterminate] ~ span {
   font-weight: 400;
 }
