@@ -4,9 +4,9 @@
     <calendar-event
       v-for="event in events"
       :key="event.id"
-      v-show="event.isDisplayed"
       :event="event"
-      :class="[{ selected: event.id == selectedEventId }, 'item']">
+      v-show="event.isDisplayed"
+      :class="[{ selected: event.id == selectedEventId }]">
     </calendar-event>
   </div>
 </template>
