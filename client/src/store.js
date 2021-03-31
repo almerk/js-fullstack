@@ -1,8 +1,11 @@
 import endpoints from './api/endpoints.js'
 import axios from 'axios'
-import Vuex from 'vuex'
+import occurencies from './occurencies.js'
 
 export default {
+  modules:{
+    occurencies
+  },
   state: {
     endpoints,
     objects: null,

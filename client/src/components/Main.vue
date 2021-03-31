@@ -52,15 +52,13 @@
 import toolbar from "../components/toolbar.vue";
 import feed from "../components/feed.vue";
 import badge from "../components/ui/badge";
-import Badge from "./ui/badge.vue";
 import events from "../components/events/fabric.js";
 
 export default {
   components: {
     toolbar,
     feed,
-    badge,
-    Badge,
+    badge
   },
   data() {
     return {
