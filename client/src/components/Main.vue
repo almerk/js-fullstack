@@ -42,7 +42,7 @@
       </toolbar>
     </aside>
     <main>
-      <feed :events="events" :selectedEventId="selectedEventId"></feed>
+      <feed :events="displayedEvents" :selectedEventId="selectedEventId"></feed>
       <div id="calendar"></div>
     </main>
   </div>
@@ -67,6 +67,7 @@ export default {
       selectedEventId: this.$route.params.eventId,
       selectedTypeIds: [],
       selectedCalendarIds: [],
+      displayedEvents: [],
     };
   },
   methods: {
@@ -99,12 +100,6 @@ export default {
       return this.$store.getters.events.filter((x) => x.calendarId == id)
         .length;
     },
-    eventMapFunction(ev) {
-      return {
-        ...ev,
-        isDisplayed: this.selectedCalendarIds.includes(ev.calendarId),
-      };
-    },
     color(typeName) {
       return events.typeColorHSL(typeName.toLowerCase(), 0);
     },
@@ -131,7 +126,7 @@ export default {
       return this.$store.getters.calendars;
     },
     events() {
-      return this.$store.getters.events.map(this.eventMapFunction);
+      return this.$store.getters.events;
     },
   },
   watch: {
@@ -150,6 +145,22 @@ export default {
         added.map((x) => x.id)
       );
     },
+    events(newValue, oldValue) {
+      const addedEvents = newValue.filter((x) => !oldValue.includes(x));
+      const removedEvents = oldValue.filter((x) => !newValue.includes(x));
+      addedEvents.forEach((ev) => {
+        this.displayedEvents.push({
+          ...ev,
+          isDisplayed: this.selectedCalendarIds.includes(ev.calendarId),
+        });
+      });
+      removedEvents.forEach((ev) => {
+        const index = this.displayedEvents.findIndex(
+          (x) => x.objectId == ev.objectId
+        );
+        this.$delete(this.displayedEvents, index);
+      });
+    },
     selectedTypeIds(newValue, oldValue) {
       const addedTypes = newValue.filter((x) => !oldValue.includes(x));
       const canBeDisplayed = this.calendars
@@ -162,6 +173,16 @@ export default {
         ...this.selectedCalendarIds.filter((x) => canBeDisplayed.includes(x)),
         ...mustBeDisplayed,
       ];
+    },
+    selectedCalendarIds(newValue, oldValue) {
+      const added = newValue.filter((x) => !oldValue.includes(x));
+      const removed = oldValue.filter((x) => !newValue.includes(x));
+      this.displayedEvents
+        .filter((x) => added.includes(x.calendarId))
+        .forEach((x) => (x.isDisplayed = true));
+      this.displayedEvents
+        .filter((x) => removed.includes(x.calendarId))
+        .forEach((x) => (x.isDisplayed = false));
     },
   },
 };
@@ -181,14 +202,17 @@ export default {
   overflow: auto;
   height: 100%;
 }
-#main label.type,#main label.calendar {
+#main label.type,
+#main label.calendar {
   --hsl: var(--color-h), var(--color-s), var(--color-l);
 }
-#main label.type span, #main label.calendar span  {
+#main label.type span,
+#main label.calendar span {
   text-shadow: hsla(var(--hsl), 0.4) 0px 0px 1px,
     hsla(var(--hsl), 0.4) 0px 0px 1px;
 }
-#main label.type sup, #main label.calendar sup {
+#main label.type sup,
+#main label.calendar sup {
   color: hsl(var(--hsl));
 }
 </style>  
