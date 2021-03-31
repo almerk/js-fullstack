@@ -115,9 +115,6 @@ export default {
       return this.types.find((x) => x.id == id);
     },
   },
-  created() {
-    this.$store.commit("initialize");
-  },
   computed: {
     types() {
       return this.$store.getters.types;

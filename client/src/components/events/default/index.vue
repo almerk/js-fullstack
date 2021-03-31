@@ -147,8 +147,9 @@ export default {
 .event-content:not(.selected) legend {
   display: none;
 }
-.event-content:not(.selected):hover{
-  box-shadow: hsla(var(--hsl), 0.7) 1px 1px 2px 1px, hsla(var(--hsl), 0.7) -1px -1px 2px 1px
+.event-content:not(.selected):hover {
+  box-shadow: hsla(var(--hsl), 0.7) 1px 1px 2px 1px,
+    hsla(var(--hsl), 0.7) -1px -1px 2px 1px;
 }
 .event-content.selected {
   box-shadow: hsla(var(--hsl), 0.6) 3px 3px 4px 2px,
@@ -169,6 +170,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  gap: 0.3em;
 }
 
 .dates ul {
