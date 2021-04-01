@@ -5,6 +5,7 @@
     @click.native="eventClick(event.id)"
     :id="`event-${event.id}`"
     :style="styleObj"
+    v-cloak
   ></component>
 </template>
 
@@ -48,4 +49,8 @@ export default {
 };
 </script>
 <style >
+[v-cloak]{
+  background: red;
+  height: 100px;width: 100px;
+}
 </style>

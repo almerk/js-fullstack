@@ -5,7 +5,7 @@
 export default {
   created() {
     this.$store.commit("initialize");
-    this.$store.commit('occurencies/retrieve',1,2)
+    this.$store.commit("occurencies/retrieve");
   },
   data() {
     return {};

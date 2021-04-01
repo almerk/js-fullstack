@@ -6,10 +6,8 @@
         <time>{{ date }}
           <small v-if="yearsCount > 0"
           ><label>In current year:</label>
-          <span>{{ yearsCount }}</span></small
-        >
+          <span>{{ yearsCount }}</span></small>
         </time>
-        
       </fieldset>
     </template>
   </default-index>

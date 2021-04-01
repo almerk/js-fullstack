@@ -65,6 +65,7 @@ export default {
       selectedEventId: this.$route.params.eventId,
       selectedTypeIds: [],
       selectedCalendarIds: [],
+      selectedEventIds:[],
       displayedEvents: [],
     };
   },
