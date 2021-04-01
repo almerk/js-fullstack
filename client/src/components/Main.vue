@@ -160,7 +160,11 @@ export default {
         .filter((x) => newValue.includes(x.typeId))
         .map((x) => x.id);
       const mustBeDisplayed = this.calendars
-        .filter((x) => addedTypes.includes(x.typeId))
+        .filter(
+          (x) =>
+            addedTypes.includes(x.typeId) &&
+            !this.selectedCalendarIds.includes(x.id)
+        )
         .map((x) => x.id);
       this.selectedCalendarIds = [
         ...this.selectedCalendarIds.filter((x) => canBeDisplayed.includes(x)),
@@ -168,22 +172,24 @@ export default {
       ];
     },
     selectedCalendarIds(newValue, oldValue) {
-      console.log(newValue, oldValue);
       const added = newValue.filter((x) => !oldValue.includes(x));
       const removed = oldValue.filter((x) => !newValue.includes(x));
-      console.log('added',added);
-      console.log('removed',removed);
-      return;
       added.forEach((cId) => {
-        const toAdd = this.eventsOfCalendar(cId).map((x) => x.id);
-        // console.log('toAdd',toAdd)
+        const toAdd = this.eventsOfCalendar(cId)
+          .map((x) => x.id)
+          .filter((x) => !this.displayedEventIds.includes(x));
         this.displayedEventIds.push(...toAdd);
       });
       removed.forEach((cId) => {
         const toDelete = this.eventsOfCalendar(cId).map((x) => x.id);
-        console.log('toDelete',toAdd)
-        toDelete.forEach((id) => this.$delete(this.displayedEventIds, id));
+        toDelete.forEach((id) =>
+          this.$delete(
+            this.displayedEventIds,
+            this.displayedEventIds.indexOf(id)
+          )
+        );
       });
+      console.log(this.displayedEventIds);
     },
   },
 };
