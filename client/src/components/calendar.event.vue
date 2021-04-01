@@ -18,7 +18,7 @@ export default {
     ...events.all,
   },
   props: {
-    event: Object,
+    eventId: String,
   },
   data() {
     return {
@@ -49,8 +49,4 @@ export default {
 };
 </script>
 <style >
-[v-cloak]{
-  background: red;
-  height: 100px;width: 100px;
-}
 </style>

@@ -1,12 +1,12 @@
 <template>
   <div id="feed">
     <h6 class="date-label"
-      >#no date<badge>{{ noDateEvents.length }}</badge></h6
+      >#no date<badge>{{ noDateEventIds.length }}</badge></h6
     >
-    <template v-for="event in events">
+    <template v-for="eventId in noDateEventIds">
       <calendar-event
-        :key="event.id"
-        :event="event"
+        :key="eventId"
+        :eventId="eventId"
         :class="[{ selected: event.id == selectedEventId }]"
       >
       </calendar-event>
@@ -20,11 +20,8 @@ import VueScrollTo from "vue-scrollto";
 import Badge from "./ui/badge.vue";
 
 export default {
-  created() {
-    this.events.forEach(this.addEvent);
-  },
   props: {
-    displayedEvents: Array,
+    displayedEventIds: Array,
     selectedEventId: String,
   },
   components: {
@@ -33,28 +30,20 @@ export default {
   },
   data() {
     return {
-      noDateEvents: [],
+      noDateEventIds: [],
+
     };
   },
   computed: {
-    events() {
-      return this.$store.getters.events;
-    },
     occurencies() {
       return this.$store.getters["occurencies/values"];
     },
   },
   methods: {
     removeFrom(array, ev) {
-      const index = array.findIndex((x) => x.objectId == ev.objectId);
+      const index = array.findIndex((x) => x.objectId == ev.id);
       if (index >= 0) this.$delete(array, index);
-    },
-    addEvent(ev) {
-      this.noDateEvents.push(ev);
-    },
-    removeEvent(ev) {
-      this.removeFrom(this.noDateEvents, ev);
-    },
+    }
   },
   updated() {
     if (this.selectedEventId)
@@ -64,12 +53,10 @@ export default {
       });
   },
   watch: {
-    events(newEvents, oldEvents) {
-      const addedEvents = newEvents.filter((e) => !oldEvents.includes(e));
-      addedEvents.forEach(this.addEvent);
-      const removedEvents = oldEvents.filter((e) => !newEvents.includes(e));
-      removedEvents.forEach(this.removeEvent);
-    },
+    displayedEventIds(newValue, oldValue) {
+      console.log(newValue,'!!!',oldValue)
+
+    }
   },
 };
 </script>

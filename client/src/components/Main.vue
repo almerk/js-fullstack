@@ -13,7 +13,7 @@
                   v-model="selectedTypeIds"
                 />
                 <span>{{ type.name }}</span>
-                <badge>{{ calendarsOfType(type.id) }}</badge>
+                <badge>{{ calendarsOfType(type.id).length }}</badge>
               </label>
             </li>
           </ul>
@@ -34,7 +34,7 @@
                   :disabled="!inArray(calendar.typeId, selectedTypeIds)"
                 />
                 <span>{{ calendar.name }}</span>
-                <badge>{{ eventsOfCalendar(calendar.id) }}</badge>
+                <badge>{{ eventsOfCalendar(calendar.id).length }}</badge>
               </label>
             </li>
           </ul>
@@ -42,7 +42,10 @@
       </toolbar>
     </aside>
     <main>
-      <feed :events="displayedEvents" :selectedEventId="selectedEventId"></feed>
+      <feed
+        :events="displayedEventIds"
+        :selectedEventId="selectedEventId"
+      ></feed>
       <div id="calendar"></div>
     </main>
   </div>
@@ -58,15 +61,14 @@ export default {
   components: {
     toolbar,
     feed,
-    badge
+    badge,
   },
   data() {
     return {
       selectedEventId: this.$route.params.eventId,
       selectedTypeIds: [],
       selectedCalendarIds: [],
-      selectedEventIds:[],
-      displayedEvents: [],
+      displayedEventIds: [],
     };
   },
   methods: {
@@ -93,11 +95,10 @@ export default {
       return notIn.length == 0 ? [] : full;
     },
     calendarsOfType(id) {
-      return this.calendars.filter((x) => x.typeId == id).length;
+      return this.calendars.filter((x) => x.typeId == id);
     },
     eventsOfCalendar(id) {
-      return this.$store.getters.events.filter((x) => x.calendarId == id)
-        .length;
+      return this.$store.getters.events.filter((x) => x.calendarId == id);
     },
     color(typeName) {
       return events.typeColorHSL(typeName.toLowerCase(), 0);
@@ -144,17 +145,13 @@ export default {
     events(newValue, oldValue) {
       const addedEvents = newValue.filter((x) => !oldValue.includes(x));
       const removedEvents = oldValue.filter((x) => !newValue.includes(x));
-      addedEvents.forEach((ev) => {
-        this.displayedEvents.push({
-          ...ev,
-          isDisplayed: this.selectedCalendarIds.includes(ev.calendarId),
-        });
-      });
+      this.displayedEventIds.push(
+        ...addedEvents
+          .filter((e) => this.selectedCalendarIds.includes(e.calendarId))
+          .map((e) => e.id)
+      );
       removedEvents.forEach((ev) => {
-        const index = this.displayedEvents.findIndex(
-          (x) => x.objectId == ev.objectId
-        );
-        this.$delete(this.displayedEvents, index);
+        this.$delete(this.displayedEventIds, ev.id);
       });
     },
     selectedTypeIds(newValue, oldValue) {
@@ -171,14 +168,22 @@ export default {
       ];
     },
     selectedCalendarIds(newValue, oldValue) {
+      console.log(newValue, oldValue);
       const added = newValue.filter((x) => !oldValue.includes(x));
       const removed = oldValue.filter((x) => !newValue.includes(x));
-      this.displayedEvents
-        .filter((x) => added.includes(x.calendarId))
-        .forEach((x) => (x.isDisplayed = true));
-      this.displayedEvents
-        .filter((x) => removed.includes(x.calendarId))
-        .forEach((x) => (x.isDisplayed = false));
+      console.log('added',added);
+      console.log('removed',removed);
+      return;
+      added.forEach((cId) => {
+        const toAdd = this.eventsOfCalendar(cId).map((x) => x.id);
+        // console.log('toAdd',toAdd)
+        this.displayedEventIds.push(...toAdd);
+      });
+      removed.forEach((cId) => {
+        const toDelete = this.eventsOfCalendar(cId).map((x) => x.id);
+        console.log('toDelete',toAdd)
+        toDelete.forEach((id) => this.$delete(this.displayedEventIds, id));
+      });
     },
   },
 };
