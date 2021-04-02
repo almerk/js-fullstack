@@ -5,7 +5,8 @@
         v-show="isDisplayed(eventId)"
         :key="eventId"
         :eventId="eventId"
-        :selected="eventId==selectedEventId">
+        :selected="eventId == selectedEventId"
+      >
       </calendar-event>
     </template>
   </div>

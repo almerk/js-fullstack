@@ -43,7 +43,7 @@
       <section>
         <fieldset>
           <legend>Users</legend>
-          <subjectsTree :relations="relations" :viewOnly="true"></subjectsTree>
+          <subjectsTree :objectId="this.event.id" :viewOnly="true"></subjectsTree>
         </fieldset>
       </section>
     </aside>
@@ -76,11 +76,6 @@ export default {
     },
     hasExceptDates() {
       return this.exceptDates.length > 0;
-    },
-    relations() {
-      return this.$store.getters.relations.filter(
-        (x) => x.objectId == this.event.id
-      );
     },
   },
   created() {},

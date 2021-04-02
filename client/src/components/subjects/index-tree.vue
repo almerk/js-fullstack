@@ -16,21 +16,24 @@
 import treeItem from "./tree-item.vue";
 export default {
   props: {
-    relations: Array,
+    objectId: String,
     viewOnly: Boolean,
   },
   components: {
     treeItem,
   },
   data() {
-    return {
-      subjectIds: [],
-    };
-  },
-  created() {
-    this.subjectIds = this.relations.map((x) => x.subjectId);
+    return {};
   },
   computed: {
+    relations() {
+      return this.$store.getters.relations.filter(
+        (x) => x.objectId == this.objectId
+      );
+    },
+    subjectIds() {
+      return this.relations.map((x) => x.subjectId);
+    },
     groups() {
       return this.$store.getters.groups;
     },
@@ -104,10 +107,10 @@ div[role="tree"].view .collapsed.group > .indeterminate {
   overflow: hidden;
   -webkit-box-orient: vertical;
   position: relative;
-  padding-right:.5em;
+  padding-right: 0.5em;
 }
-div[role="tree"].view .collapsed.group > .indeterminate [role=badge]{
-    visibility: hidden;
+div[role="tree"].view .collapsed.group > .indeterminate [role="badge"] {
+  visibility: hidden;
 }
 div[role="tree"].view .collapsed.group > .indeterminate::after {
   position: absolute;
