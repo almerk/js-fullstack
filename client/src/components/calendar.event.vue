@@ -3,13 +3,15 @@
     :is="view"
     :event="event"
     @click.native="eventClick(event.id)"
-    :id="`event-${event.id}`"
+    :id="`event-${this.event.id}`"
     :style="styleObj"
+    :class="{ selected: selected }"
     v-cloak
   ></component>
 </template>
 
 <script>
+import VueScrollTo from "vue-scrollto";
 import user from "./user.vue";
 import events from "./events/fabric.js";
 export default {
@@ -19,6 +21,7 @@ export default {
   },
   props: {
     eventId: String,
+    selected: Boolean,
   },
   data() {
     return {
@@ -48,6 +51,14 @@ export default {
       const path = `/events/${id}`;
       if (this.$route.path !== path) this.$router.push(path);
     },
+  },
+  updated() {
+    if (this.selected) {
+      VueScrollTo.scrollTo(`#event-${this.eventId}`, 500, {
+        container: "#feed",
+        duration: 2000,
+      });
+    }
   },
 };
 </script>

@@ -26,6 +26,9 @@ export default {
 }
 #toolbar header {
   font-family: Arial, Helvetica, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #toolbar fieldset {
   display: flex;
@@ -35,7 +38,7 @@ export default {
   min-width: 0;
   text-overflow: ellipsis;
   overflow: hidden;
-  border:none;
+  border: none;
   flex-shrink: 0;
 }
 #toolbar label span,
@@ -45,14 +48,14 @@ export default {
   text-overflow: ellipsis;
   cursor: pointer;
   position: relative;
-  width:auto;
-  max-width:100%;
+  width: auto;
+  max-width: 100%;
 }
 #toolbar fieldset legend {
-    font-size: 0.7em;
+  font-size: 0.7em;
 }
-#toolbar fieldset label{
-    display:flex;
+#toolbar fieldset label {
+  display: flex;
 }
 
 #toolbar input ~ span {

@@ -1,14 +1,11 @@
 <template>
   <div id="feed">
-    <h6 class="date-label">
-      #no date
-      <badge>{{ noDateEventIds.length }}</badge>
-    </h6>
     <template v-for="eventId in allEventIds">
-      <calendar-event v-show="isDisplayed(eventId)"
+      <calendar-event
+        v-show="isDisplayed(eventId)"
         :key="eventId"
         :eventId="eventId"
-        :class="[{ selected: eventId == selectedEventId }]">
+        :selected="eventId==selectedEventId">
       </calendar-event>
     </template>
   </div>
@@ -16,7 +13,6 @@
 
 <script>
 import calendarEvent from "./calendar.event.vue";
-import VueScrollTo from "vue-scrollto";
 import badge from "./ui/badge.vue";
 
 export default {
@@ -42,20 +38,13 @@ export default {
     },
   },
   methods: {
-    isDisplayed(eventId){
+    isDisplayed(eventId) {
       return this.displayedEventIds.includes(eventId);
     },
     removeFrom(array, ev) {
       const index = array.findIndex((x) => x.objectId == ev.id);
       if (index >= 0) this.$delete(array, index);
     },
-  },
-  updated() {
-    if (this.selectedEventId)
-      VueScrollTo.scrollTo(`#event-${this.selectedEventId}`, 500, {
-        container: "#feed",
-        duration: 2000,
-      });
   },
   watch: {},
 };
