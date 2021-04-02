@@ -1,14 +1,14 @@
 <template>
   <div id="feed">
-    <h6 class="date-label"
-      >#no date<badge>{{ noDateEventIds.length }}</badge></h6
-    >
-    <template v-for="eventId in noDateEventIds">
-      <calendar-event
+    <h6 class="date-label">
+      #no date
+      <badge>{{ noDateEventIds.length }}</badge>
+    </h6>
+    <template v-for="eventId in allEventIds">
+      <calendar-event v-show="isDisplayed(eventId)"
         :key="eventId"
         :eventId="eventId"
-        :class="[{ selected: event.id == selectedEventId }]"
-      >
+        :class="[{ selected: eventId == selectedEventId }]">
       </calendar-event>
     </template>
   </div>
@@ -17,7 +17,7 @@
 <script>
 import calendarEvent from "./calendar.event.vue";
 import VueScrollTo from "vue-scrollto";
-import Badge from "./ui/badge.vue";
+import badge from "./ui/badge.vue";
 
 export default {
   props: {
@@ -26,24 +26,29 @@ export default {
   },
   components: {
     "calendar-event": calendarEvent,
-    Badge,
+    badge,
   },
   data() {
     return {
       noDateEventIds: [],
-
     };
   },
   computed: {
+    allEventIds() {
+      return this.$store.getters.events.map((x) => x.id);
+    },
     occurencies() {
       return this.$store.getters["occurencies/values"];
     },
   },
   methods: {
+    isDisplayed(eventId){
+      return this.displayedEventIds.includes(eventId);
+    },
     removeFrom(array, ev) {
       const index = array.findIndex((x) => x.objectId == ev.id);
       if (index >= 0) this.$delete(array, index);
-    }
+    },
   },
   updated() {
     if (this.selectedEventId)
@@ -52,12 +57,7 @@ export default {
         duration: 2000,
       });
   },
-  watch: {
-    displayedEventIds(newValue, oldValue) {
-      console.log(newValue,'!!!',oldValue)
-
-    }
-  },
+  watch: {},
 };
 </script>
 
@@ -65,7 +65,7 @@ export default {
 #feed {
   display: grid;
   grid-gap: 0.3em;
-  grid-template-columns: repeat(auto-fit, minmax(2em, auto));
+  grid-template-columns: repeat(auto-fit, 2em);
   grid-auto-rows: minmax(2em, 0);
   grid-auto-flow: row;
   height: 100%;

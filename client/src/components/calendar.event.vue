@@ -26,6 +26,9 @@ export default {
     };
   },
   computed: {
+    event() {
+      return this.$store.getters.events.find((x) => x.id == this.eventId);
+    },
     view() {
       return events.is(this.event.$type, this.currentView);
     },
@@ -35,8 +38,8 @@ export default {
     styleObj() {
       return {
         "--color-h": this.color.h,
-        "--color-s": this.color.s+'%',
-        "--color-l": this.color.l+'%'
+        "--color-s": this.color.s + "%",
+        "--color-l": this.color.l + "%",
       };
     },
   },

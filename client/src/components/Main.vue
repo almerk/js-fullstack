@@ -43,7 +43,7 @@
     </aside>
     <main>
       <feed
-        :events="displayedEventIds"
+        :displayedEventIds="displayedEventIds"
         :selectedEventId="selectedEventId"
       ></feed>
       <div id="calendar"></div>
@@ -189,7 +189,6 @@ export default {
           )
         );
       });
-      console.log(this.displayedEventIds);
     },
   },
 };
