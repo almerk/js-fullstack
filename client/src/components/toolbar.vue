@@ -1,17 +1,21 @@
 <template>
-  <form id="toolbar">
-    <header>
-      {{ header }}
-    </header>
-    <slot></slot>
+  <form id="toolbar" :class="{folded:folded}">
+      <header>
+        <label>
+          <input type="checkbox" v-model="folded" />
+           {{ header }}
+        </label>
+      </header>
+      <slot></slot>
   </form>
 </template>
 
 <script>
 export default {
-  data() {
+  data() { 
     return {
-      header: "📅 Calendario",
+      header: "📅Calendario",
+      folded: true,
     };
   },
 };
@@ -24,11 +28,20 @@ export default {
   height: 100%;
   width: 100%;
 }
+#toolbar {
+  max-width: 12em;
+}
+#toolbar.folded {
+  max-width: 1em;
+}
 #toolbar header {
   font-family: Arial, Helvetica, sans-serif;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+#toolbar header label{
+  text-transform:none;
+  font-size:1rem;
 }
 #toolbar fieldset {
   display: flex;

@@ -1,52 +1,54 @@
 <template>
   <div id="main">
-    <aside>
-      <toolbar>
-        <fieldset>
-          <legend @click="showOrHideAllTypes()">Types</legend>
-          <ul>
-            <li v-for="type in types" :key="type.id">
-              <label :style="styleObj(type.name)" class="type">
-                <input
-                  type="checkbox"
-                  :value="type.id"
-                  v-model="selectedTypeIds"
-                />
-                <span>{{ type.name }}</span>
-                <badge>{{ calendarsOfType(type.id).length }}</badge>
-              </label>
-            </li>
-          </ul>
-        </fieldset>
-        <fieldset>
-          <legend @click="showOrHideAllCalendars()">Calendars</legend>
-          <ul>
-            <li
-              v-for="calendar in calendars"
-              :key="calendar.id"
-              :style="styleObj(getType(calendar.typeId).name)"
-            >
-              <label class="calendar">
-                <input
-                  type="checkbox"
-                  :value="calendar.id"
-                  v-model="selectedCalendarIds"
-                  :disabled="!inArray(calendar.typeId, selectedTypeIds)"
-                />
-                <span>{{ calendar.name }}</span>
-                <badge>{{ eventsOfCalendar(calendar.id).length }}</badge>
-              </label>
-            </li>
-          </ul>
-        </fieldset>
-      </toolbar>
-    </aside>
+    <toolbar>
+      <fieldset>
+        <legend @click="showOrHideAllTypes()">Types</legend>
+        <ul>
+          <li v-for="type in types" :key="type.id">
+            <label :style="styleObj(type.name)" class="type">
+              <input
+                type="checkbox"
+                :value="type.id"
+                v-model="selectedTypeIds"
+              />
+              <span>{{ type.name }}</span>
+              <badge>{{ calendarsOfType(type.id).length }}</badge>
+            </label>
+          </li>
+        </ul>
+      </fieldset>
+      <fieldset>
+        <legend @click="showOrHideAllCalendars()">Calendars</legend>
+        <ul>
+          <li
+            v-for="calendar in calendars"
+            :key="calendar.id"
+            :style="styleObj(getType(calendar.typeId).name)"
+          >
+            <label class="calendar">
+              <input
+                type="checkbox"
+                :value="calendar.id"
+                v-model="selectedCalendarIds"
+                :disabled="!inArray(calendar.typeId, selectedTypeIds)"
+              />
+              <span>{{ calendar.name }}</span>
+              <badge>{{ eventsOfCalendar(calendar.id).length }}</badge>
+            </label>
+          </li>
+        </ul>
+      </fieldset>
+    </toolbar>
     <main>
       <feed
         :displayedEventIds="displayedEventIds"
         :selectedEventId="selectedEventId"
       ></feed>
-      <div id="calendar"></div>
+      <!-- <calendar
+        :displayedEventIds="displayedEventIds"
+        :selectedEventId="selectedEventId"
+      >
+      </calendar> -->
     </main>
   </div>
 </template>
@@ -56,12 +58,14 @@ import toolbar from "../components/toolbar.vue";
 import feed from "../components/feed.vue";
 import badge from "../components/ui/badge";
 import events from "../components/events/fabric.js";
+import calendar from "./calendar.vue";
 
 export default {
   components: {
     toolbar,
     feed,
     badge,
+    calendar,
   },
   data() {
     return {
@@ -196,29 +200,45 @@ export default {
 
 <style>
 #main {
-  display: grid;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  /* display: grid;
   grid-template-columns: minmax(auto, 25%) 1fr;
   grid-row: auto;
   column-gap: 0.5em;
-  overflow: hidden;
+  overflow: hidden; */
   width: 100%;
   height: 100%;
+  overflow-x: scroll;
 }
+#main > aside {
+  position: sticky;
+  left: 0;
+  z-index: -1;
+}
+#main > main {
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+  /* flex-wrap: wrap; */
+}
+
 #main > * {
   overflow: auto;
   height: 100%;
 }
-#main label.type,
-#main label.calendar {
+label.type,
+label.calendar {
   --hsl: var(--color-h), var(--color-s), var(--color-l);
 }
-#main label.type span,
-#main label.calendar span {
+label.type span,
+label.calendar span {
   text-shadow: hsla(var(--hsl), 0.4) 0px 0px 1px,
     hsla(var(--hsl), 0.4) 0px 0px 1px;
 }
-#main label.type sup,
-#main label.calendar sup {
+label.type sup,
+label.calendar sup {
   color: hsl(var(--hsl));
 }
 </style>  

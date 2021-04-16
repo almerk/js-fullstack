@@ -61,7 +61,7 @@ export default {
   height: 100%;
   width: 100%;
   overflow-y: auto;
-  padding: 0.4em;
+  /* padding: 0.4em; */
 }
 #feed .selected {
   grid-column-start: 1;
